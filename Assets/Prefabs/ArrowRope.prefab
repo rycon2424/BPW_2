@@ -385,8 +385,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowRotator: {fileID: 1189455144493740402}
-  arrowSpeed: 2
-  rotationSpeed: 1
+  arrowSpeed: 5
+  rotationSpeed: 2
   anim: {fileID: 1189455144485114991}
   RopeAttached: {fileID: 7359618215541385507, guid: 45ac980eba5e1724fb534ad5c278025f,
     type: 3}

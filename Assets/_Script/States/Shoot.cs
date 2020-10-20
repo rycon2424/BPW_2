@@ -31,7 +31,14 @@ public class Shoot : State
 
     public override void StateUpdate(PlayerBehaviour pb)
     {
-
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Time.timeScale = pb.slowTimeSpeed * 2;
+        }
+        else
+        {
+            Time.timeScale = pb.slowTimeSpeed;
+        }
     }
 
     public override void StateLateUpdate(PlayerBehaviour pb)
