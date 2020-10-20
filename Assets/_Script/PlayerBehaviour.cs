@@ -9,6 +9,9 @@ public class PlayerBehaviour : MonoBehaviour
     public Transform cameraObject;
     public Transform rangedView;
     public GameObject crosshair;
+    [Space]
+    public GameObject bowArm;
+    public GameObject bowBack;
 
     [Header("Movement")]
     public bool canMove;

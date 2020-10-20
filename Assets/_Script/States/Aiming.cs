@@ -9,12 +9,18 @@ public class Aiming : State
         pb.SetCamDistanceAndTarget(2, pb.rangedView);
         pb.crosshair.SetActive(true);
         pb.anim.SetLayerWeight(1, 1);
+
+        pb.bowArm.SetActive(true);
+        pb.bowBack.SetActive(false);
     }
 
     public override void OnStateExit(PlayerBehaviour pb)
     {
         pb.anim.SetLayerWeight(1, 0);
         pb.crosshair.SetActive(false);
+
+        pb.bowArm.SetActive(false);
+        pb.bowBack.SetActive(true);
     }
 
     public override void StateUpdate(PlayerBehaviour pb)
@@ -35,7 +41,7 @@ public class Aiming : State
 
     void Movement(PlayerBehaviour pb)
     {
-        pb.anim.SetFloat("Horizontal", Input.GetAxis("Horizontal"));
+        //pb.anim.SetFloat("Horizontal", Input.GetAxis("Horizontal"));
         pb.anim.SetFloat("Vertical", Input.GetAxis("Vertical"));
     }
 
