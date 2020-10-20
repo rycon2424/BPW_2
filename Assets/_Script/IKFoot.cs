@@ -48,7 +48,7 @@ public class IKFoot : MonoBehaviour
         if (enableFeetIK == false) { return; }
         if (anim == false) { return; }
         if (!pc.grounded) { return; }
-        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0 || pc.canJump == false)
         {
             return;
         }
