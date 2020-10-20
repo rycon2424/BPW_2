@@ -33,7 +33,7 @@ public class Shoot : State
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            Time.timeScale = pb.slowTimeSpeed * 2;
+            Time.timeScale = 1;
         }
         else
         {

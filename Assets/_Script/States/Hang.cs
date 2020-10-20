@@ -33,7 +33,21 @@ public class Hang : State
             pb.anim.SetTrigger("Hang");
             StateMachine.GoToState(pb, "Locomotion");
         }
-        pb.transform.position += (pb.direction * Input.GetAxis("Vertical")) * Time.deltaTime;
+        pb.transform.position += (pb.direction * Input.GetAxis("Vertical")) * Time.deltaTime * 3;
+        CheckIfHittingGround(pb);
     }
-    
+
+    void CheckIfHittingGround(PlayerBehaviour pb)
+    {
+        RaycastHit hit;
+        Vector3 calculatedV = pb.transform.position + new Vector3(0, 1.5f, 0);
+        Debug.DrawRay(calculatedV, Vector3.down * 1.25f, Color.blue, 0.25f);
+        if (Physics.Raycast(calculatedV, Vector3.down, out hit , 1.25f, pb.hitGround))
+        {
+            pb.anim.SetTrigger("Hang");
+            StateMachine.GoToState(pb, "Locomotion");
+            Debug.Log(hit.collider.name);
+        }
+    }
+
 }

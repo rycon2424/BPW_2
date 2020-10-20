@@ -23,6 +23,7 @@ public class PlayerBehaviour : MonoBehaviour
     public Vector3 hangOffset;
     public Vector3 currentHangpos;
     public Vector3 direction;
+    public LayerMask hitGround;
 
     [Header("Movement")]
     public bool canMove;
