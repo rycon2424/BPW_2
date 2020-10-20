@@ -12,6 +12,11 @@ public class PlayerBehaviour : MonoBehaviour
     [Space]
     public GameObject bowArm;
     public GameObject bowBack;
+    public GameObject arrowInHand;
+    [Space]
+    public GameObject arrow;
+    public Transform arrowSpawn;
+    public float slowTimeSpeed;
 
     [Header("Movement")]
     public bool canMove;
@@ -32,7 +37,7 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public CharacterController characterController;
 
     private State currentState;
-    private OrbitCamera oc;
+    [HideInInspector] public OrbitCamera oc;
 
     void Start()
     {
@@ -54,9 +59,11 @@ public class PlayerBehaviour : MonoBehaviour
     {
         Locomotion lm = new Locomotion();
         Aiming am = new Aiming();
+        Shoot sh = new Shoot();
 
         StateMachine.allStates.Add(lm);
         StateMachine.allStates.Add(am);
+        StateMachine.allStates.Add(sh);
         StateMachine.GoToState(this, "Locomotion");
     }
 

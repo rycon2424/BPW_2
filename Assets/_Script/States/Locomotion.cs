@@ -6,7 +6,12 @@ public class Locomotion : State
 {
     public override void OnStateEnter(PlayerBehaviour pb)
     {
+        pb.anim.SetLayerWeight(1, 0);
         pb.SetCamDistanceAndTarget(4, pb.transform);
+
+        pb.bowArm.SetActive(false);
+        pb.bowBack.SetActive(true);
+        pb.arrowInHand.SetActive(false);
     }
 
     public override void OnStateExit(PlayerBehaviour pb)

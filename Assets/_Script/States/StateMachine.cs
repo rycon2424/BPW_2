@@ -33,4 +33,13 @@ public abstract class StateMachine : MonoBehaviour
     {
         return currentState;
     }
+
+    public static bool IsInState(string state)
+    {
+        if (state == currentState.GetType().ToString())
+        {
+            return true;
+        }
+        return false;
+    }
 }

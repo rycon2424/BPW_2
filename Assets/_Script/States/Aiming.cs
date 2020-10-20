@@ -12,19 +12,20 @@ public class Aiming : State
 
         pb.bowArm.SetActive(true);
         pb.bowBack.SetActive(false);
+        pb.arrowInHand.SetActive(true);
     }
 
     public override void OnStateExit(PlayerBehaviour pb)
     {
-        pb.anim.SetLayerWeight(1, 0);
         pb.crosshair.SetActive(false);
-
-        pb.bowArm.SetActive(false);
-        pb.bowBack.SetActive(true);
     }
 
     public override void StateUpdate(PlayerBehaviour pb)
     {
+        if (Input.GetMouseButton(0))
+        {
+            StateMachine.GoToState(pb, "Shoot");
+        }
         if (Input.GetKeyDown(KeyCode.R))
         {
             StateMachine.GoToState(pb, "Locomotion");
