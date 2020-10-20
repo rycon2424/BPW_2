@@ -385,8 +385,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowRotator: {fileID: 1189455144493740402}
-  arrowSpeed: 3
-  rotationSpeed: 2
+  arrowSpeed: 2
+  rotationSpeed: 1
   anim: {fileID: 1189455144485114991}
   RopeAttached: {fileID: 7359618215541385507, guid: 45ac980eba5e1724fb534ad5c278025f,
     type: 3}
@@ -720,7 +720,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 1000
-  field of view: 75
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: 0

@@ -14,7 +14,7 @@ public class FeetandHeadIK : MonoBehaviour
     
     void OnAnimatorIK()
     {
-        anim.SetLookAtWeight(0.5f);
+        anim.SetLookAtWeight(0.35f);
         anim.SetLookAtPosition(headLook.position);
     }
 }

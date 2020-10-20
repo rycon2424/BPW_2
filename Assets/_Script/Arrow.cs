@@ -13,9 +13,15 @@ public class Arrow : MonoBehaviour
 
     float vertical;
     float horizontal;
+
+    private void Start()
+    {
+        Destroy(gameObject, 15f);
+    }
+
     void Update()
     {
-        arrowRotator.Rotate(0, 0, 1);
+        arrowRotator.Rotate(0, 0, 1 * Time.deltaTime);
 
         if (enabledControl)
         {
@@ -57,14 +63,20 @@ public class Arrow : MonoBehaviour
         {
             lr.SetPosition(i + 1, hits[i]);
         }
+        lr.positionCount++;
+        lr.SetPosition(lr.positionCount - 1, hits[0]);
 
         DestroyThis();
     }
 
     void DestroyThis()
     {
-        StateMachine.GoToState(pb, "Locomotion");
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        StateMachine.GoToState(pb, "Locomotion");
     }
 
 }
