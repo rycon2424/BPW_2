@@ -1,0 +1,105 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Locomotion : State
+{
+    public override void OnStateEnter(PlayerBehaviour pb)
+    {
+        pb.SetCamDistanceAndTarget(4, pb.transform);
+    }
+
+    public override void OnStateExit(PlayerBehaviour pb)
+    {
+
+    }
+
+    public override void StateUpdate(PlayerBehaviour pb)
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            StateMachine.GoToState(pb, "Aiming");
+        }
+        MovementAndJump(pb);
+        if (moveHorizontal != 0 || moveVertical != 0)
+        {
+            RotateTowardsCamera(pb);
+        }
+    }
+
+    float moveHorizontal;
+    float moveVertical;
+    void MovementAndJump(PlayerBehaviour pb)
+    {
+        float yMove = pb.movement.y;
+        moveHorizontal = Input.GetAxis("Horizontal");
+        moveVertical = Input.GetAxis("Vertical");
+        pb.anim.SetFloat("Horizontal", Input.GetAxis("Horizontal"));
+        pb.anim.SetFloat("Vertical", Input.GetAxis("Vertical"));
+
+        float sprintspeedlocal;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            sprintspeedlocal = pb.sprintSpeed;
+            pb.anim.SetBool("Running", true);
+        }
+        else
+        {
+            sprintspeedlocal = 0;
+            pb.anim.SetBool("Running", false);
+        }
+
+        pb.movement = (pb.transform.forward * moveVertical) + (pb.transform.right * moveHorizontal);
+        pb.movement = pb.movement.normalized * (pb.moveSpeed + sprintspeedlocal);
+        pb.movement.y = yMove;
+
+        if (pb.characterController.isGrounded)
+        {
+            pb.movement.y = 0f;
+        }
+
+        pb.anim.SetBool("IsGrounded", HitGround(pb));
+        pb.grounded = HitGround(pb);
+
+        if (pb.characterController.isGrounded || HitGround(pb))
+        {
+            if (Input.GetButtonDown("Jump") && pb.canJump)
+            {
+                pb.anim.SetTrigger("Jump");
+                pb.canJump = false;
+            }
+        }
+
+        // Apply gravity
+        pb.movement.y = pb.movement.y + (Physics.gravity.y * pb.gravity * Time.deltaTime);
+
+        if (pb.canMove)
+            pb.characterController.Move(pb.movement * Time.deltaTime);
+
+        return;
+    }
+
+    bool HitGround(PlayerBehaviour pb)
+    {
+        RaycastHit hit;
+        Debug.DrawRay(pb.transform.position + Vector3.up * 0.5f, Vector3.down * 0.6f, Color.red, 1);
+        if (Physics.Raycast(pb.transform.position + Vector3.up * 0.5f, Vector3.down, out hit, 0.6f))
+        {
+            //Debug.Log(hit.collider.name);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void RotateTowardsCamera(PlayerBehaviour pb)
+    {
+        var CharacterRotation = pb.cameraObject.transform.rotation;
+        CharacterRotation.x = 0;
+        CharacterRotation.z = 0;
+        pb.transform.rotation = Quaternion.Slerp(pb.transform.rotation, CharacterRotation, Time.deltaTime * 8);
+    }
+}
