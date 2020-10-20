@@ -14,6 +14,7 @@ public class RopeSlide : MonoBehaviour
     {
         lr = GetComponent<LineRenderer>();
         direction = (lr.GetPosition(1) - lr.GetPosition(0)).normalized;
+        pb = FindObjectOfType<PlayerBehaviour>();
     }
     
     void Update()
@@ -34,10 +35,15 @@ public class RopeSlide : MonoBehaviour
             if (hit.collider.CompareTag("Player"))
             {
                 RaycastHit heightHit;
-                Debug.DrawRay(hit.point, Vector3.down * 1.8f, Color.blue);
-                if (!Physics.Raycast(hit.point, Vector3.down, out heightHit, 1.8f, heightCheck))
+                Debug.DrawRay(hit.point, Vector3.down * 2f, Color.blue);
+                if (!Physics.Raycast(hit.point, Vector3.down, out heightHit, 2f, heightCheck))
                 {
-                    Debug.Log("Player can Enter");
+                    if (StateMachine.IsInState("Locomotion"))
+                    {
+                        pb.currentHangpos = hit.point;
+                        pb.direction = direction;
+                        StateMachine.GoToState(pb, "Hang");
+                    }
                 }
                 else
                 {

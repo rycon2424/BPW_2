@@ -1450,7 +1450,7 @@ MonoBehaviour:
   arrowInHand: {fileID: 1246440292436225760}
   arrow: {fileID: 1189455144485114989, guid: a23c9e731166b5044a88e4598cf9055e, type: 3}
   arrowSpawn: {fileID: 916947279}
-  slowTimeSpeed: 0.5
+  slowTimeSpeed: 0.25
   canMove: 0
   grounded: 0
   moveSpeed: 2
@@ -1459,9 +1459,10 @@ MonoBehaviour:
   gravity: 2.5
   canJump: 0
   movement: {x: 0, y: 0, z: 0}
-  lookoffset: {x: 0, y: 180, z: -90}
+  lookoffset: {x: -5, y: 180, z: -90}
   chest: {fileID: 0}
   characterController: {fileID: 0}
+  hangPos: {x: 0, y: 0, z: 0}
   oc: {fileID: 0}
 --- !u!143 &5436936496116846753
 CharacterController:

@@ -13,10 +13,16 @@ public class PlayerBehaviour : MonoBehaviour
     public GameObject bowArm;
     public GameObject bowBack;
     public GameObject arrowInHand;
-    [Space]
+
+    [Header("Aiming/Shoot")]
     public GameObject arrow;
     public Transform arrowSpawn;
     public float slowTimeSpeed;
+
+    [Header("Hanging")]
+    public Vector3 hangOffset;
+    public Vector3 currentHangpos;
+    public Vector3 direction;
 
     [Header("Movement")]
     public bool canMove;
@@ -60,10 +66,12 @@ public class PlayerBehaviour : MonoBehaviour
         Locomotion lm = new Locomotion();
         Aiming am = new Aiming();
         Shoot sh = new Shoot();
+        Hang ha = new Hang();
 
         StateMachine.allStates.Add(lm);
         StateMachine.allStates.Add(am);
         StateMachine.allStates.Add(sh);
+        StateMachine.allStates.Add(ha);
         StateMachine.GoToState(this, "Locomotion");
     }
 
