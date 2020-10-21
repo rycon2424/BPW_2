@@ -21,7 +21,7 @@ public class Arrow : MonoBehaviour
 
     void Update()
     {
-        arrowRotator.Rotate(0, 0, 1 * Time.deltaTime);
+        arrowRotator.Rotate(0, 0, 200 * Time.deltaTime);
 
         if (enabledControl)
         {

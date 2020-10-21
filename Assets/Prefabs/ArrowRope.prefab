@@ -385,8 +385,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowRotator: {fileID: 1189455144493740402}
-  arrowSpeed: 5
-  rotationSpeed: 2
+  arrowSpeed: 7
+  rotationSpeed: 4
   anim: {fileID: 1189455144485114991}
   RopeAttached: {fileID: 7359618215541385507, guid: 45ac980eba5e1724fb534ad5c278025f,
     type: 3}
@@ -443,7 +443,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1189455144493740401}
-  m_LocalRotation: {x: -0, y: -0, z: -0.7967882, w: 0.6042588}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -456,7 +456,7 @@ Transform:
   - {fileID: 1189455143593223221}
   m_Father: {fileID: 1189455144485114990}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -825.649}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1189455144701054043
 GameObject:
   m_ObjectHideFlags: 0

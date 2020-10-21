@@ -6,6 +6,7 @@ public class Shoot : State
 {
     GameObject ob;
     Arrow ar;
+    float originalRotationSpeed;
 
     public override void OnStateEnter(PlayerBehaviour pb)
     {
@@ -15,6 +16,7 @@ public class Shoot : State
         ob = Object.Instantiate(pb.arrow, pb.arrowSpawn.transform.position, pb.arrowSpawn.transform.rotation);
         ar = ob.GetComponent<Arrow>();
         ar.pb = pb;
+        originalRotationSpeed = ar.rotationSpeed;
 
         Time.timeScale = pb.slowTimeSpeed;
         pb.anim.speed = 0;
@@ -33,11 +35,13 @@ public class Shoot : State
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            Time.timeScale = 1;
+            Time.timeScale = pb.slowTimeSpeed / 2;
+            ar.rotationSpeed = originalRotationSpeed * 1.5f;
         }
         else
         {
             Time.timeScale = pb.slowTimeSpeed;
+            ar.rotationSpeed = originalRotationSpeed;
         }
     }
 
