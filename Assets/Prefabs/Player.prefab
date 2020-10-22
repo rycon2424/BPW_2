@@ -1437,12 +1437,12 @@ MonoBehaviour:
   arrow: {fileID: 1189455144485114989, guid: a23c9e731166b5044a88e4598cf9055e, type: 3}
   arrowSpawn: {fileID: 916947279}
   slowTimeSpeed: 0.25
-  hangOffset: {x: 0, y: 0, z: 0}
+  hangOffset: {x: 0, y: -2.15, z: 0}
   currentHangpos: {x: 0, y: 0, z: 0}
   direction: {x: 0, y: 0, z: 0}
   hitGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   canMove: 0
   grounded: 0
   moveSpeed: 2

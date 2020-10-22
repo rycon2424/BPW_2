@@ -14,6 +14,8 @@ public class Arrow : MonoBehaviour
     float vertical;
     float horizontal;
 
+    private bool broken = false;
+
     private void Start()
     {
         Destroy(gameObject, 15f);
@@ -21,6 +23,10 @@ public class Arrow : MonoBehaviour
 
     void Update()
     {
+        if (broken)
+        {
+            return;
+        }
         arrowRotator.Rotate(0, 0, 200 * Time.deltaTime);
 
         if (enabledControl)
@@ -50,6 +56,7 @@ public class Arrow : MonoBehaviour
         arrowSpeed = 0;
         rotationSpeed = 0;
         anim.Play("Break");
+        broken = true;
     }
 
     public void Succes(List<Vector3> hits)
