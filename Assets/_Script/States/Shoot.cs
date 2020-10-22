@@ -33,10 +33,15 @@ public class Shoot : State
 
     public override void StateUpdate(PlayerBehaviour pb)
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetMouseButton(1))
         {
             Time.timeScale = pb.slowTimeSpeed / 2;
             ar.rotationSpeed = originalRotationSpeed * 1.5f;
+        }
+        else if (Input.GetMouseButton(0))
+        {
+            Time.timeScale = pb.slowTimeSpeed * 4;
+            ar.rotationSpeed = originalRotationSpeed * 0.25f;
         }
         else
         {

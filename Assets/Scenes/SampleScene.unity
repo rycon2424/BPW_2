@@ -1671,6 +1671,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 963194227, guid: c9ef1cb823ab0c248a2404d183441ea4, type: 3}
+      propertyPath: near clip plane
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 2937988589043812869, guid: c9ef1cb823ab0c248a2404d183441ea4,
         type: 3}
       propertyPath: m_LocalPosition.z

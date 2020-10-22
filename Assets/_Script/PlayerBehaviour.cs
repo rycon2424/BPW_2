@@ -100,7 +100,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    public void CanJumpAgain(PlayerBehaviour pb)
+    public void CanJumpAgain()
     {
         canJump = true;
     }
