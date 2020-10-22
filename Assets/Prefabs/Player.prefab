@@ -135,7 +135,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -1437,12 +1437,12 @@ MonoBehaviour:
   arrow: {fileID: 1189455144485114989, guid: a23c9e731166b5044a88e4598cf9055e, type: 3}
   arrowSpawn: {fileID: 916947279}
   slowTimeSpeed: 0.25
-  hangOffset: {x: 0, y: -2.15, z: 0}
+  hangOffset: {x: 0, y: -2.2, z: 0}
   currentHangpos: {x: 0, y: 0, z: 0}
   direction: {x: 0, y: 0, z: 0}
   hitGround:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 513
   canMove: 0
   grounded: 0
   moveSpeed: 2
@@ -1501,7 +1501,7 @@ MonoBehaviour:
   enableFeetIK: 1
   heightFromGroundRaycast: 0.4
   raycastDownDistance: 0.4
-  pelvisOffset: 0
+  pelvisOffset: -0.01
   pelvisUpAndDownSpeed: 1
   feetToIKPositionSpeed: 0.1
   showSolverDebug: 1

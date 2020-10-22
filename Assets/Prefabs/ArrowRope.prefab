@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1189455143109918912}
   - component: {fileID: 1189455143109918914}
   - component: {fileID: 1189455143109918913}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Crossbow_shaft_Shaft_Boole_Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 1189455143466069334}
   - component: {fileID: 1189455143466069328}
   - component: {fileID: 1189455143466069335}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Crossbow_shaft_fetching_Pyramid_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 1189455143593223221}
   - component: {fileID: 1189455143593223223}
   - component: {fileID: 1189455143593223222}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Crossbow_shaft_Tip1_Tip2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 1189455144293371160}
   - component: {fileID: 1189455144293371162}
   - component: {fileID: 1189455144293371161}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Crossbow_shaft_Tip1_Tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 1189455144485114984}
   - component: {fileID: 1189455144485114987}
   - component: {fileID: 1189455144485114986}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ArrowRope
   m_TagString: Arrow
   m_Icon: {fileID: 0}
@@ -429,7 +429,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1189455144493740402}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ArrowRotator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -468,7 +468,7 @@ GameObject:
   - component: {fileID: 1189455144701055908}
   - component: {fileID: 1189455144701055910}
   - component: {fileID: 1189455144701055909}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Crossbow_shaft_Shaft_Boole_Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -546,7 +546,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1189455144747275315}
   - component: {fileID: 1189455144747275324}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TrailRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -674,7 +674,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1189455144790046234}
   - component: {fileID: 1189455144790046233}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -749,7 +749,7 @@ GameObject:
   - component: {fileID: 1189455144868932723}
   - component: {fileID: 1189455144868932733}
   - component: {fileID: 1189455144868932732}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Crossbow_shaft_fetching_Pyramid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -828,7 +828,7 @@ GameObject:
   - component: {fileID: 1189455144925433437}
   - component: {fileID: 1189455144925433439}
   - component: {fileID: 1189455144925433438}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Crossbow_shaft_fetching_Pyramid_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
