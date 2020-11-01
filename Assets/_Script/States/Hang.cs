@@ -33,7 +33,7 @@ public class Hang : State
             pb.anim.SetTrigger("Hang");
             StateMachine.GoToState(pb, "Locomotion");
         }
-        pb.transform.position += (pb.direction * Input.GetAxis("Vertical")) * Time.deltaTime * 3;
+        pb.transform.position += (pb.direction * Input.GetAxis("Vertical")) * Time.deltaTime * 6;
         CheckIfHittingGroundOrWall(pb);
     }
 
