@@ -35,6 +35,26 @@ public class OrbitCamera : MonoBehaviour
         Initialize();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            verticalRotationSpeed -= 10;
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            verticalRotationSpeed += 10;
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            horizontalRotationSpeed -= 10;
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            horizontalRotationSpeed += 10;
+        }
+    }
+
     /* This is where we set our private variables, check for null errors,
      * and anything else that needs to be called once during startup */
     void Initialize()

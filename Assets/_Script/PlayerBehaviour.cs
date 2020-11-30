@@ -7,22 +7,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     public Animator anim;
     public Transform cameraObject;
-    public Transform rangedView;
-    public GameObject crosshair;
-    [Space]
-    public GameObject bowArm;
-    public GameObject bowBack;
-    public GameObject arrowInHand;
 
-    [Header("Aiming/Shoot")]
-    public GameObject arrow;
-    public Transform arrowSpawn;
-    public float slowTimeSpeed;
-
-    [Header("Hanging")]
-    public Vector3 hangOffset;
-    public Vector3 currentHangpos;
-    public Vector3 direction;
     public LayerMask hitGround;
 
     [Header("Movement")]
@@ -42,6 +27,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     [HideInInspector] public Transform chest;
     [HideInInspector] public CharacterController characterController;
+    public Vector3 hangOffset;
+    public float grabHeight;
 
     private State currentState;
     [HideInInspector] public OrbitCamera oc;
@@ -65,14 +52,10 @@ public class PlayerBehaviour : MonoBehaviour
     void SetupStateMachine()
     {
         Locomotion lm = new Locomotion();
-        Aiming am = new Aiming();
-        Shoot sh = new Shoot();
-        Hang ha = new Hang();
+        Hanging hg = new Hanging();
 
         StateMachine.allStates.Add(lm);
-        StateMachine.allStates.Add(am);
-        StateMachine.allStates.Add(sh);
-        StateMachine.allStates.Add(ha);
+        StateMachine.allStates.Add(hg);
         StateMachine.GoToState(this, "Locomotion");
     }
 
@@ -103,6 +86,16 @@ public class PlayerBehaviour : MonoBehaviour
     public void CanJumpAgain()
     {
         canJump = true;
+    }
+
+    public void DelayTurnOnRoot(float delay)
+    {
+        Invoke("DelayedRoot", delay);
+    }
+
+    void DelayedRoot()
+    {
+        anim.applyRootMotion = true;
     }
 
 }

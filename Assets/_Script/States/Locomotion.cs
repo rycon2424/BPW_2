@@ -6,12 +6,7 @@ public class Locomotion : State
 {
     public override void OnStateEnter(PlayerBehaviour pb)
     {
-        pb.anim.SetLayerWeight(1, 0);
-        pb.SetCamDistanceAndTarget(4, pb.transform);
 
-        pb.bowArm.SetActive(false);
-        pb.bowBack.SetActive(true);
-        pb.arrowInHand.SetActive(false);
     }
 
     public override void OnStateExit(PlayerBehaviour pb)
@@ -21,14 +16,27 @@ public class Locomotion : State
 
     public override void StateUpdate(PlayerBehaviour pb)
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            StateMachine.GoToState(pb, "Aiming");
-        }
         MovementAndJump(pb);
         if (moveHorizontal != 0 || moveVertical != 0)
         {
             RotateTowardsCamera(pb);
+        }
+        if (Input.GetKey(KeyCode.E) && pb.grounded == false)
+        {
+            FindLedge(pb);
+        }
+    }
+    
+    void FindLedge(PlayerBehaviour pb)
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(pb.transform.position + Vector3.up * 1.8f + pb.transform.forward, -pb.transform.up);
+        Debug.DrawRay(pb.transform.position + Vector3.up * 1.8f + pb.transform.forward, pb.transform.up * -0.6f, Color.red, 1);
+        if (Physics.Raycast(ray, out hit, 0.6f))
+        {
+            pb.grabHeight = hit.point.y - pb.transform.position.y;
+            StateMachine.GoToState(pb, "Hanging");
+            Debug.Log(hit.collider.name);
         }
     }
 
@@ -91,7 +99,6 @@ public class Locomotion : State
         Debug.DrawRay(pb.transform.position + Vector3.up * 0.5f, Vector3.down * 0.6f, Color.red, 1);
         if (Physics.Raycast(pb.transform.position + Vector3.up * 0.5f, Vector3.down, out hit, 0.6f))
         {
-            //Debug.Log(hit.collider.name);
             return true;
         }
         else
