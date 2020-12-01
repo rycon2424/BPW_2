@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1761734873
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1761734874}
+  m_Layer: 8
+  m_Name: HandIk
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1761734874
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761734873}
+  m_LocalRotation: {x: -0.5367788, y: -0.092566706, z: 0.059397932, w: 0.8365237}
+  m_LocalPosition: {x: 0.259, y: 1.714, z: 0.642}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1227524336015126491}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: -62.506004, y: -28.268002, z: 25.501001}
 --- !u!1 &1225203697078789311
 GameObject:
   m_ObjectHideFlags: 0
@@ -8960,6 +8990,7 @@ Transform:
   - {fileID: 1227342641063340959}
   - {fileID: 1231444316536492177}
   - {fileID: 7721967932740639448}
+  - {fileID: 1761734874}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9011,9 +9042,11 @@ MonoBehaviour:
   lookoffset: {x: -5, y: 180, z: -90}
   chest: {fileID: 0}
   characterController: {fileID: 0}
+  grabHand: {fileID: 1761734874}
   hangOffset: {x: 0, y: -1.2, z: 0}
   grabHeight: 0
   oc: {fileID: 0}
+  lerping: 0
 --- !u!143 &1225739467035670657
 CharacterController:
   m_ObjectHideFlags: 0

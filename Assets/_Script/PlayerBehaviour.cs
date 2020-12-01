@@ -28,6 +28,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     [HideInInspector] public Transform chest;
     [HideInInspector] public CharacterController characterController;
+    public Transform grabHand;
     public Vector3 hangOffset;
     public float grabHeight;
 
@@ -168,4 +169,29 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    float lerping = 0;
+    private void OnAnimatorIK()
+    {
+        if (StateMachine.IsInState("Locomotion") && !grounded)
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                lerping += 2 * Time.deltaTime;
+                anim.SetIKPosition(AvatarIKGoal.RightHand, grabHand.position);
+                anim.SetIKRotation(AvatarIKGoal.RightHand, grabHand.rotation);
+
+                anim.SetIKPositionWeight(AvatarIKGoal.RightHand, Mathf.Lerp(0, 1, lerping));
+                anim.SetIKRotationWeight(AvatarIKGoal.RightHand, Mathf.Lerp(0, 1, lerping));
+            }
+            else
+            {
+                anim.SetIKPositionWeight(AvatarIKGoal.RightHand, Mathf.Lerp(1, 0, lerping));
+                anim.SetIKRotationWeight(AvatarIKGoal.RightHand, Mathf.Lerp(1, 0, lerping));
+            }
+        }
+        else
+        {
+            lerping = 0;
+        }
+    }
 }
