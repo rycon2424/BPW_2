@@ -11,13 +11,14 @@ public class Hanging : State
         pb.anim.SetTrigger("Hang");
         Vector3 newPlayerPos = pb.transform.position + pb.hangOffset;
         newPlayerPos.y += pb.grabHeight;
+
+        pb.transform.position -= pb.transform.forward * 0.1f;
+
         pb.transform.position = newPlayerPos;
 
         PlayerFaceWall(pb);
         PlayerToWall(pb);
         
-        pb.transform.position -= pb.transform.forward * 0.1f;
-
         pb.DelayTurnOnRoot(0.25f);
     }
 
@@ -41,10 +42,10 @@ public class Hanging : State
         Debug.DrawRay(playerHeight, pb.transform.forward * range, Color.yellow, 5);
         if (Physics.Raycast(playerHeight, pb.transform.forward, out hit, range))
         {
-            //Debug.Log("Distance is " + (pb.transform.position - hit.point));
             Vector3 temp = pb.transform.position - hit.point;
             temp.y = 0;
-            pb.transform.position -= temp;
+            pb.LerpToPosition(pb.transform.position - temp);
+            //pb.transform.position -= temp;
         }
     }
 

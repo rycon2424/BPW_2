@@ -111,8 +111,8 @@ public class PlayerBehaviour : MonoBehaviour
     public void HitGround()
     {
         RaycastHit hit;
-        Debug.DrawRay(transform.position + Vector3.up * 0.5f, Vector3.down * 0.6f, Color.red, 1);
-        if (Physics.Raycast(transform.position + Vector3.up * 0.5f, Vector3.down, out hit, 0.6f))
+        Debug.DrawRay(transform.position + Vector3.up * 0.5f, Vector3.down * 0.75f, Color.red, 1);
+        if (Physics.Raycast(transform.position + Vector3.up * 0.5f, Vector3.down, out hit, 0.75f))
         {
             if (grounded != true)
             {
@@ -148,6 +148,23 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 fallDuration++;
             }
+        }
+    }
+
+    public void LerpToPosition(Vector3 pos)
+    {
+        StartCoroutine(LerpToPos(pos));
+    }
+
+    IEnumerator LerpToPos(Vector3 pos)
+    {
+        float timeElapsed = 0;
+
+        while (timeElapsed < 0.25f)
+        {
+            transform.position = Vector3.Lerp(transform.position, pos, timeElapsed / 0.25f);
+            timeElapsed += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
         }
     }
 
