@@ -9,6 +9,7 @@ public class Locomotion : State
         pb.characterController.enabled = true;
         pb.anim.applyRootMotion = true;
         pb.canJump = true;
+        pb.fallDuration = 0;
     }
 
     public override void OnStateExit(PlayerBehaviour pb)
@@ -57,12 +58,12 @@ public class Locomotion : State
         if (Input.GetKey(KeyCode.LeftShift))
         {
             sprintspeedlocal = pb.sprintSpeed;
-            pb.anim.SetBool("Running", true);
+            pb.anim.SetBool("Sprinting", true);
         }
         else
         {
             sprintspeedlocal = 0;
-            pb.anim.SetBool("Running", false);
+            pb.anim.SetBool("Sprinting", false);
         }
 
         pb.movement = (pb.transform.forward * moveVertical) + (pb.transform.right * moveHorizontal);

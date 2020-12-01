@@ -50,7 +50,7 @@ public class Hanging : State
 
     public override void OnStateExit(PlayerBehaviour pb)
     {
-
+        pb.fallDuration = 0;
     }
 
     public override void StateUpdate(PlayerBehaviour pb)
@@ -62,12 +62,32 @@ public class Hanging : State
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            pb.anim.SetTrigger("Jump");
-            StateMachine.GoToState(pb, "StateBetween");
+            if (IsRoomToClimb(pb))
+            {
+                pb.anim.SetTrigger("Jump");
+                StateMachine.GoToState(pb, "StateBetween");
+            }
+        }
+    }
+
+    bool IsRoomToClimb(PlayerBehaviour pb)
+    {
+        Vector3 offset = pb.transform.position + (pb.transform.forward * 0.75f) + Vector3.up;
+        RaycastHit hit;
+        Ray ray = new Ray(offset, Vector3.up);
+        Debug.DrawRay(offset, Vector3.up * 2, Color.yellow, 1);
+        if (Physics.Raycast(ray, out hit, 2))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
 
     public override void StateLateUpdate(PlayerBehaviour pb)
     {
+
     }
 }

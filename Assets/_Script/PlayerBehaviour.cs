@@ -18,7 +18,8 @@ public class PlayerBehaviour : MonoBehaviour
     private float normalSpeed;
     public float jumpForce = 8.0f;
     public float gravity = 2.5f;
-    
+    public int fallDuration;
+
     [Space]
 
     public bool canJump;
@@ -90,7 +91,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     IEnumerator Falling()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         if (StateMachine.IsInState("Locomotion"))
         {
             StateMachine.GoToState(this, "Falling");
@@ -117,6 +118,10 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 StopCoroutine("Falling");
                 grounded = true;
+                if (StateMachine.IsInState("Locomotion"))
+                {
+                    fallDuration = 0;
+                }
             }
         }
         else
@@ -133,6 +138,17 @@ public class PlayerBehaviour : MonoBehaviour
     public void NextState(string state)
     {
         StateMachine.GoToState(this, state);
+    }
+
+    private void FixedUpdate()
+    {
+        if (!grounded)
+        {
+            if (StateMachine.IsInState("Locomotion") || StateMachine.IsInState("Falling"))
+            {
+                fallDuration++;
+            }
+        }
     }
 
 }
