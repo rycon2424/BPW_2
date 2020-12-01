@@ -6,7 +6,9 @@ public class Locomotion : State
 {
     public override void OnStateEnter(PlayerBehaviour pb)
     {
-
+        pb.characterController.enabled = true;
+        pb.anim.applyRootMotion = true;
+        pb.canJump = true;
     }
 
     public override void OnStateExit(PlayerBehaviour pb)
@@ -72,10 +74,9 @@ public class Locomotion : State
             pb.movement.y = 0f;
         }
 
-        pb.anim.SetBool("IsGrounded", HitGround(pb));
-        pb.grounded = HitGround(pb);
+        pb.anim.SetBool("IsGrounded", pb.grounded);
 
-        if (pb.characterController.isGrounded || HitGround(pb))
+        if (pb.characterController.isGrounded || pb.grounded)
         {
             if (Input.GetButtonDown("Jump") && pb.canJump)
             {
@@ -91,20 +92,6 @@ public class Locomotion : State
             pb.characterController.Move(pb.movement * Time.deltaTime);
 
         return;
-    }
-
-    bool HitGround(PlayerBehaviour pb)
-    {
-        RaycastHit hit;
-        Debug.DrawRay(pb.transform.position + Vector3.up * 0.5f, Vector3.down * 0.6f, Color.red, 1);
-        if (Physics.Raycast(pb.transform.position + Vector3.up * 0.5f, Vector3.down, out hit, 0.6f))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 
     public void RotateTowardsCamera(PlayerBehaviour pb)

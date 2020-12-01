@@ -15,8 +15,10 @@ public class Hanging : State
 
         PlayerFaceWall(pb);
         PlayerToWall(pb);
+        
+        pb.transform.position -= pb.transform.forward * 0.1f;
 
-        pb.DelayTurnOnRoot(0.5f);
+        pb.DelayTurnOnRoot(0.25f);
     }
 
     void PlayerFaceWall(PlayerBehaviour pb)
@@ -39,7 +41,7 @@ public class Hanging : State
         Debug.DrawRay(playerHeight, pb.transform.forward * range, Color.yellow, 5);
         if (Physics.Raycast(playerHeight, pb.transform.forward, out hit, range))
         {
-            Debug.Log("Distance is " + (pb.transform.position - hit.point));
+            //Debug.Log("Distance is " + (pb.transform.position - hit.point));
             Vector3 temp = pb.transform.position - hit.point;
             temp.y = 0;
             pb.transform.position -= temp;
@@ -48,11 +50,21 @@ public class Hanging : State
 
     public override void OnStateExit(PlayerBehaviour pb)
     {
+
     }
 
     public override void StateUpdate(PlayerBehaviour pb)
     {
         pb.anim.SetFloat("Horizontal", Input.GetAxis("Horizontal"));
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            StateMachine.GoToState(pb, "Falling");
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            pb.anim.SetTrigger("Jump");
+            StateMachine.GoToState(pb, "StateBetween");
+        }
     }
 
     public override void StateLateUpdate(PlayerBehaviour pb)

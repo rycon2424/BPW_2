@@ -9,7 +9,7 @@ public class PlayerBehaviour : MonoBehaviour
     public Transform cameraObject;
 
     public LayerMask hitGround;
-
+    
     [Header("Movement")]
     public bool canMove;
     public bool grounded;
@@ -53,14 +53,19 @@ public class PlayerBehaviour : MonoBehaviour
     {
         Locomotion lm = new Locomotion();
         Hanging hg = new Hanging();
+        Falling fa = new Falling();
+        StateBetween sb = new StateBetween();
 
         StateMachine.allStates.Add(lm);
         StateMachine.allStates.Add(hg);
+        StateMachine.allStates.Add(fa);
+        StateMachine.allStates.Add(sb);
         StateMachine.GoToState(this, "Locomotion");
     }
 
     void Update()
     {
+        HitGround();
         currentState.StateUpdate(this);
     }
 
@@ -83,9 +88,13 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    public void CanJumpAgain()
+    IEnumerator Falling()
     {
-        canJump = true;
+        yield return new WaitForSeconds(1.5f);
+        if (StateMachine.IsInState("Locomotion"))
+        {
+            StateMachine.GoToState(this, "Falling");
+        }
     }
 
     public void DelayTurnOnRoot(float delay)
@@ -96,6 +105,34 @@ public class PlayerBehaviour : MonoBehaviour
     void DelayedRoot()
     {
         anim.applyRootMotion = true;
+    }
+    
+    public void HitGround()
+    {
+        RaycastHit hit;
+        Debug.DrawRay(transform.position + Vector3.up * 0.5f, Vector3.down * 0.6f, Color.red, 1);
+        if (Physics.Raycast(transform.position + Vector3.up * 0.5f, Vector3.down, out hit, 0.6f))
+        {
+            if (grounded != true)
+            {
+                StopCoroutine("Falling");
+                grounded = true;
+            }
+        }
+        else
+        {
+            if (grounded != false)
+            {
+                grounded = false;
+                StartCoroutine("Falling");
+            }
+        }
+        canJump = grounded;
+    }
+
+    public void NextState(string state)
+    {
+        StateMachine.GoToState(this, state);
     }
 
 }
