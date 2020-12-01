@@ -1341,6 +1341,11 @@ PrefabInstance:
       propertyPath: hangOffset.y
       value: -1.2
       objectReference: {fileID: 0}
+    - target: {fileID: 1225739467035670656, guid: c9ef1cb823ab0c248a2404d183441ea4,
+        type: 3}
+      propertyPath: test
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 1225739467035670661, guid: c9ef1cb823ab0c248a2404d183441ea4,
         type: 3}
       propertyPath: m_Name
