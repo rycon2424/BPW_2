@@ -53,9 +53,7 @@ public class Hanging : State
     {
         pb.fallDuration = 0;
     }
-
-    bool roomLeft = true;
-    bool roomRight = true;
+    
     public override void StateUpdate(PlayerBehaviour pb)
     {
         Vector3 startPos = pb.transform.position - (pb.transform.forward * 0.1f);
