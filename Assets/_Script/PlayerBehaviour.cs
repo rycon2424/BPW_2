@@ -7,6 +7,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     public Animator anim;
     public Transform cameraObject;
+    public float horizontal;
 
     public LayerMask hitGround;
     

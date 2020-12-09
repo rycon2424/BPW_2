@@ -54,28 +54,39 @@ public class Hanging : State
         pb.fallDuration = 0;
     }
 
+    bool roomLeft = true;
+    bool roomRight = true;
     public override void StateUpdate(PlayerBehaviour pb)
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        if (Input.GetAxis("Horizontal") != 0)
+        Vector3 startPos = pb.transform.position - (pb.transform.forward * 0.1f);
+        if (Input.GetKey(KeyCode.D))
         {
-            Vector3 startPos = pb.transform.position - (pb.transform.forward * 0.1f);
-            if (horizontal > 0)
+            if (isPlaceToClimb(startPos + pb.transform.right, pb))
             {
-                if (!isPlaceToClimb(startPos + pb.transform.right, pb))
-                {
-                    horizontal = 0;
-                }
-            }
-            else
-            {
-                if (!isPlaceToClimb(startPos + -pb.transform.right, pb))
-                {
-                    horizontal = 0;
-                }
+                pb.horizontal = Input.GetAxis("Horizontal");
             }
         }
-        pb.anim.SetFloat("Horizontal", horizontal);
+        if (Input.GetKey(KeyCode.A))
+        {
+            if (isPlaceToClimb(startPos + -pb.transform.right, pb))
+            {
+                pb.horizontal = Input.GetAxis("Horizontal");
+            }
+        }
+        pb.anim.SetFloat("Horizontal", pb.horizontal);
+
+        if (pb.horizontal < 0)
+        {
+            pb.horizontal += 1 * Time.deltaTime;
+        }
+        if (pb.horizontal > 0)
+        {
+            pb.horizontal -= 1 * Time.deltaTime;
+        }
+        if (Mathf.Abs(pb.horizontal) < 0.1f)
+        {
+            pb.horizontal = 0;
+        }
         if (Input.GetKeyDown(KeyCode.X))
         {
             StateMachine.GoToState(pb, "Falling");
