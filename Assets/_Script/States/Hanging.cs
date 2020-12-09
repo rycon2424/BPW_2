@@ -56,7 +56,26 @@ public class Hanging : State
 
     public override void StateUpdate(PlayerBehaviour pb)
     {
-        pb.anim.SetFloat("Horizontal", Input.GetAxis("Horizontal"));
+        float horizontal = Input.GetAxis("Horizontal");
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+            Vector3 startPos = pb.transform.position - (pb.transform.forward * 0.1f);
+            if (horizontal > 0)
+            {
+                if (!isPlaceToClimb(startPos + pb.transform.right, pb))
+                {
+                    horizontal = 0;
+                }
+            }
+            else
+            {
+                if (!isPlaceToClimb(startPos + -pb.transform.right, pb))
+                {
+                    horizontal = 0;
+                }
+            }
+        }
+        pb.anim.SetFloat("Horizontal", horizontal);
         if (Input.GetKeyDown(KeyCode.X))
         {
             StateMachine.GoToState(pb, "Falling");
@@ -70,7 +89,7 @@ public class Hanging : State
             }
         }
     }
-
+    
     bool IsRoomToClimb(PlayerBehaviour pb)
     {
         Vector3 offset = pb.transform.position + (pb.transform.forward * 0.75f) + Vector3.up;
@@ -84,6 +103,22 @@ public class Hanging : State
         else
         {
             return true;
+        }
+    }
+
+    bool isPlaceToClimb(Vector3 start, PlayerBehaviour pb)
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(start, pb.transform.forward);
+        Debug.DrawRay(start, pb.transform.forward, Color.blue, 1);
+        if (Physics.Raycast(ray, out hit, 1))
+        {
+            //Debug.Log(hit.collider.name);
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
