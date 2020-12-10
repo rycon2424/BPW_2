@@ -12,7 +12,7 @@ public class Hanging : State
         Vector3 newPlayerPos = pb.transform.position + pb.hangOffset;
         newPlayerPos.y += pb.grabHeight;
 
-        pb.transform.position -= pb.transform.forward * 0.1f;
+        //pb.transform.position -= pb.transform.forward * 0.1f;
 
         pb.transform.position = newPlayerPos;
 

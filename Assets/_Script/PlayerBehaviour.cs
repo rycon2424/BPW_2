@@ -10,16 +10,21 @@ public class PlayerBehaviour : MonoBehaviour
     public float horizontal;
 
     public LayerMask hitGround;
-    
+
     [Header("Movement")]
     public bool canMove;
     public bool grounded;
     public float moveSpeed;
     public float sprintSpeed;
+    public bool aiming;
     private float normalSpeed;
     public float jumpForce = 8.0f;
     public float gravity = 2.5f;
     public int fallDuration;
+
+    [Header("Gun")]
+    public GameObject gunInHand;
+    public GameObject gunHoldster;
 
     [Space]
 
@@ -30,6 +35,7 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public Transform chest;
     [HideInInspector] public CharacterController characterController;
     public Transform grabHand;
+    public Transform gunHand;
     public Vector3 hangOffset;
     public float grabHeight;
 
@@ -109,7 +115,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         anim.applyRootMotion = true;
     }
-    
+
     public void HitGround()
     {
         RaycastHit hit;
@@ -173,26 +179,79 @@ public class PlayerBehaviour : MonoBehaviour
     float lerping = 0;
     private void OnAnimatorIK()
     {
-        if (StateMachine.IsInState("Locomotion") && !grounded)
+        if (StateMachine.IsInState("Locomotion") && grounded && !anim.GetBool("Sprinting"))
         {
-            if (Input.GetKey(KeyCode.E))
+            if (Input.GetMouseButton(1))
             {
-                lerping += 2 * Time.deltaTime;
-                anim.SetIKPosition(AvatarIKGoal.RightHand, grabHand.position);
-                anim.SetIKRotation(AvatarIKGoal.RightHand, grabHand.rotation);
+                Aiming = true;
+                if (lerping < 0.7f)
+                {
+                    lerping += 2 * Time.deltaTime;
+                }
+                anim.SetIKPosition(AvatarIKGoal.LeftHand, gunHand.position);
+                anim.SetIKRotation(AvatarIKGoal.LeftHand, gunHand.rotation);
 
-                anim.SetIKPositionWeight(AvatarIKGoal.RightHand, Mathf.Lerp(0, 1, lerping));
-                anim.SetIKRotationWeight(AvatarIKGoal.RightHand, Mathf.Lerp(0, 1, lerping));
+                anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, Mathf.Lerp(0, 0.7f, lerping));
+                anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, Mathf.Lerp(0, 0.7f, lerping));
             }
             else
             {
-                anim.SetIKPositionWeight(AvatarIKGoal.RightHand, Mathf.Lerp(1, 0, lerping));
-                anim.SetIKRotationWeight(AvatarIKGoal.RightHand, Mathf.Lerp(1, 0, lerping));
+                Aiming = false;
+                if (lerping > 0)
+                {
+                    lerping -= 2 * Time.deltaTime;
+                }
+                anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, lerping);
+                anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, lerping);
+                anim.SetIKPosition(AvatarIKGoal.LeftHand, gunHand.position);
+                anim.SetIKRotation(AvatarIKGoal.LeftHand, gunHand.rotation);
+            }
+        }
+        else if (StateMachine.IsInState("Locomotion") && !grounded)
+        {
+            Aiming = false;
+            if (Input.GetKey(KeyCode.E))
+            {
+                if (lerping < 0.7f)
+                {
+                    lerping += 2 * Time.deltaTime;
+                }
+                anim.SetIKPosition(AvatarIKGoal.RightHand, grabHand.position);
+                anim.SetIKRotation(AvatarIKGoal.RightHand, grabHand.rotation);
+
+                anim.SetIKPositionWeight(AvatarIKGoal.RightHand, Mathf.Lerp(0, 0.7f, lerping));
+                anim.SetIKRotationWeight(AvatarIKGoal.RightHand, Mathf.Lerp(0, 0.7f, lerping));
+            }
+            else
+            {
+                if (lerping > 0)
+                {
+                    lerping -= 2 * Time.deltaTime;
+                }
+                anim.SetIKPositionWeight(AvatarIKGoal.RightHand, lerping);
+                anim.SetIKRotationWeight(AvatarIKGoal.RightHand, lerping);
+                anim.SetIKPosition(AvatarIKGoal.RightHand, grabHand.position);
+                anim.SetIKRotation(AvatarIKGoal.RightHand, grabHand.rotation);
             }
         }
         else
         {
-            lerping = 0;
+            Aiming = false;
         }
     }
+
+    public bool Aiming
+    {
+        get
+        {
+            return aiming;
+        }
+        set
+        {
+            aiming = value;
+            gunInHand.SetActive(aiming);
+            gunHoldster.SetActive(!aiming);
+        }
+    }
+
 }

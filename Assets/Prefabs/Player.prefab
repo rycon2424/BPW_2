@@ -9027,6 +9027,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 1177178868542188305}
   cameraObject: {fileID: 7721967934104533965}
+  horizontal: 0
   hitGround:
     serializedVersion: 2
     m_Bits: 513
@@ -9046,7 +9047,6 @@ MonoBehaviour:
   hangOffset: {x: 0, y: -1.2, z: 0}
   grabHeight: 0
   oc: {fileID: 0}
-  lerping: 0
 --- !u!143 &1225739467035670657
 CharacterController:
   m_ObjectHideFlags: 0
@@ -9077,6 +9077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a82e1623a82b43428fc546161dc89c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IKStrength: 0.63
   headLook: {fileID: 7721967934104533965}
 --- !u!114 &1225739467035670663
 MonoBehaviour:

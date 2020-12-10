@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FeetandHeadIK : MonoBehaviour
 {
+    [Range(0, 1)] public float IKStrength;
     public Transform headLook;
     private Animator anim;
 
@@ -14,7 +15,7 @@ public class FeetandHeadIK : MonoBehaviour
     
     void OnAnimatorIK()
     {
-        anim.SetLookAtWeight(0.35f);
+        anim.SetLookAtWeight(IKStrength);
         anim.SetLookAtPosition(headLook.position);
     }
 }
