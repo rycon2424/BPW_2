@@ -79,10 +79,12 @@ public class Locomotion : State
 
         if (pb.characterController.isGrounded || pb.grounded)
         {
+            pb.pc.CombatUpdate();
             if (Input.GetButtonDown("Jump") && pb.canJump)
             {
                 pb.anim.SetTrigger("Jump");
                 pb.canJump = false;
+                pb.pc.InteruptAttack();
             }
         }
 

@@ -25,22 +25,26 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Gun")]
     public GameObject gunInHand;
     public GameObject gunHoldster;
+    public GameObject crossHairUI;
 
     [Space]
 
     public bool canJump;
     public Vector3 movement;
     public Vector3 lookoffset;
-
-    [HideInInspector] public Transform chest;
-    [HideInInspector] public CharacterController characterController;
+    
     public Transform grabHand;
     public Transform gunHand;
     public Vector3 hangOffset;
     public float grabHeight;
 
     private State currentState;
+
+    //Public hidden
     [HideInInspector] public OrbitCamera oc;
+    [HideInInspector] public Transform chest;
+    [HideInInspector] public CharacterController characterController;
+    [HideInInspector] public PlayerCombat pc;
 
     void Start()
     {
@@ -49,6 +53,7 @@ public class PlayerBehaviour : MonoBehaviour
         oc = FindObjectOfType<OrbitCamera>();
         normalSpeed = moveSpeed;
         chest = anim.GetBoneTransform(HumanBodyBones.Chest);
+        pc = GetComponent<PlayerCombat>();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
