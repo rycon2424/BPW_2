@@ -186,7 +186,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (StateMachine.IsInState("Locomotion") && grounded && !anim.GetBool("Sprinting"))
         {
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButton(1) && !pc.inCombo)
             {
                 Aiming = true;
                 if (lerping < 0.7f)

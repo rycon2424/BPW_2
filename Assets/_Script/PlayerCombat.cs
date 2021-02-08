@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
-    bool inCombo;
-
+    public bool inCombo;
+    [Space]
     PlayerBehaviour pb;
     public GameObject swordHand;
     public GameObject swordBack;
@@ -17,7 +17,29 @@ public class PlayerCombat : MonoBehaviour
 
     public void CombatUpdate()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(1) && !inCombo)
+        {
+            RangedUpdate();
+            pb.crossHairUI.SetActive(true);
+        }
+        else
+        {
+            MeleeUpdate();
+            pb.crossHairUI.SetActive(false);
+        }
+    }
+
+    void RangedUpdate()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Shoot");
+        }
+    }
+
+    void MeleeUpdate()
+    {
+        if (Input.GetMouseButtonDown(0))
         {
             if (inCombo == false)
             {

@@ -20,7 +20,7 @@ public class Locomotion : State
     public override void StateUpdate(PlayerBehaviour pb)
     {
         MovementAndJump(pb);
-        if (moveHorizontal != 0 || moveVertical != 0)
+        if (moveHorizontal != 0 || moveVertical != 0 || pb.aiming)
         {
             RotateTowardsCamera(pb);
         }
