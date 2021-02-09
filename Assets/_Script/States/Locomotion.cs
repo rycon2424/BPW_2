@@ -14,7 +14,8 @@ public class Locomotion : State
 
     public override void OnStateExit(PlayerBehaviour pb)
     {
-
+        pb.crossHairUI.SetActive(false);
+        pb.Aiming = false;
     }
 
     public override void StateUpdate(PlayerBehaviour pb)
