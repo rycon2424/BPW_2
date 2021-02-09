@@ -17,7 +17,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void CombatUpdate()
     {
-        if (Input.GetMouseButton(1) && !inCombo)
+        if (Input.GetMouseButton(1) && !inCombo && pb.Aiming)
         {
             RangedUpdate();
             pb.crossHairUI.SetActive(true);
