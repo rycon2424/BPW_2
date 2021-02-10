@@ -11,4 +11,6 @@ public class AvailablePositions : MonoBehaviour
     public Transform leftPos;
     public Transform rightPos;
     public Transform backwardsPos;
+    [Space]
+    public Vector3 myPosition;
 }

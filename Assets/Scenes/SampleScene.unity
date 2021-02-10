@@ -1819,10 +1819,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc0780dfc37903245ae7ae865fb6bc48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seed: 345
-  mapLength: 150
+  seed: 9
+  mapLength: 60
   firstTilePosition: {x: 2.92, y: -10.79, z: -34.11}
   tile: {fileID: 7269035911841109842, guid: 8e836d8424e5deb4c8052b24a1ab0c41, type: 3}
+  allTiles: []
 --- !u!1 &2052247466
 GameObject:
   m_ObjectHideFlags: 0
@@ -2024,6 +2025,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1225739467035670661, guid: c9ef1cb823ab0c248a2404d183441ea4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1227524336015126491, guid: c9ef1cb823ab0c248a2404d183441ea4,
         type: 3}

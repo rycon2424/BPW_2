@@ -9,7 +9,8 @@ public class MapGenerator : MonoBehaviour
     public Vector3 firstTilePosition;
     [Space]
     public GameObject tile;
-
+    public List<AvailablePositions> allTiles = new List<AvailablePositions>();
+    
     void Start()
     {
         UnityEngine.Random.InitState(seed);
@@ -45,6 +46,38 @@ public class MapGenerator : MonoBehaviour
 
             //Debug.Log("Current Tile = " + ap.gameObject.name +" Last tile was " + lastAp.gameObject.name);
             OpenToLastTile();
+            allTiles.Add(ap);
+        }
+        StartCoroutine(MakeRooms());
+    }
+
+    IEnumerator MakeRooms()
+    {
+        Debug.Log("make rooms");
+        yield return null;
+        foreach (AvailablePositions a in allTiles)
+        {
+            Vector3 currentPos = Vector3.zero;
+            currentPos = a.myPosition;
+            currentPos += Vector3.up;
+            foreach (AvailablePositions aa in allTiles)
+            {
+                if (currentPos == aa.myPosition)
+                {
+                    a.forwardPos.gameObject.SetActive(false);
+                    aa.backwardsPos.gameObject.SetActive(false);
+                }
+            }
+            currentPos = a.myPosition;
+            currentPos += Vector3.left;
+            foreach (AvailablePositions aa in allTiles)
+            {
+                if (currentPos == aa.myPosition)
+                {
+                    a.leftPos.gameObject.SetActive(false);
+                    aa.rightPos.gameObject.SetActive(false);
+                }
+            }
         }
     }
 
@@ -71,13 +104,16 @@ public class MapGenerator : MonoBehaviour
         switch (lastAp.nextPos)
         {
             case AvailablePositions.nextPosition.forward:
-                ap.backwardsPos.gameObject.SetActive(false);
+               // ap.backwardsPos.gameObject.SetActive(false);
+                ap.myPosition = lastAp.myPosition + new Vector3(0, 1, 0);
                 break;
             case AvailablePositions.nextPosition.left:
-                ap.rightPos.gameObject.SetActive(false);
+              //  ap.rightPos.gameObject.SetActive(false);
+                ap.myPosition = lastAp.myPosition + new Vector3(-1, 0, 0);
                 break;
             case AvailablePositions.nextPosition.right:
-                ap.leftPos.gameObject.SetActive(false);
+              //  ap.leftPos.gameObject.SetActive(false);
+                ap.myPosition = lastAp.myPosition + new Vector3(1, 0, 0);
                 break;
             default:
                 break;
