@@ -28,6 +28,7 @@ public class MapGenerator : MonoBehaviour
         lastTile.name = "Tile -1";
         ap = lastTile.GetComponent<AvailablePositions>();
         firstTile = lastTile.transform;
+        allTiles.Add(ap);
         yield return new WaitForSeconds(1.5f);
         for (int i = 0; i < mapLength; i++)
         {
@@ -42,12 +43,13 @@ public class MapGenerator : MonoBehaviour
 
             lastTile.transform.SetParent(firstTile);
 
-            yield return new WaitForEndOfFrame();
+            //yield return new WaitForEndOfFrame();
 
             //Debug.Log("Current Tile = " + ap.gameObject.name +" Last tile was " + lastAp.gameObject.name);
             OpenToLastTile();
             allTiles.Add(ap);
         }
+        yield return null;
         StartCoroutine(MakeRooms());
     }
 
