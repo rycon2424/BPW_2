@@ -9779,6 +9779,7 @@ GameObject:
   - component: {fileID: 1177178868542188305}
   - component: {fileID: 1225739467035670656}
   - component: {fileID: 2222533220069577234}
+  - component: {fileID: 3680634234501195474}
   - component: {fileID: 1225739467035670657}
   - component: {fileID: 1225739467035670662}
   - component: {fileID: 1225739467035670663}
@@ -9885,6 +9886,23 @@ MonoBehaviour:
   inCombo: 0
   swordHand: {fileID: 8848045798435726661}
   swordBack: {fileID: 2909508659256240488}
+--- !u!114 &3680634234501195474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225739467035670661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2445b81930f7e84f85ea80b0c581794, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMaxHp: 0
+  shieldStrenght: 0
+  meleeAttackSpeed: 1
+  shootAttackSpeed: 1
+  runSpeed: 1
 --- !u!143 &1225739467035670657
 CharacterController:
   m_ObjectHideFlags: 0

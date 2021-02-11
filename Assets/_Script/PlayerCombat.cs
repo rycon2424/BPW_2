@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
     public bool inCombo;
+    public bool shootCld;
     [Space]
     PlayerBehaviour pb;
     public GameObject swordHand;
@@ -18,7 +19,7 @@ public class PlayerCombat : MonoBehaviour
     public void CombatUpdate()
     {
         if (Input.GetMouseButton(1) && !inCombo && pb.Aiming)
-        {
+        { 
             RangedUpdate();
             pb.crossHairUI.SetActive(true);
         }
@@ -31,10 +32,21 @@ public class PlayerCombat : MonoBehaviour
 
     void RangedUpdate()
     {
+        if (shootCld)
+        {
+            return;
+        }
         if (Input.GetMouseButtonDown(0))
         {
+            shootCld = true;
             Debug.Log("Shoot");
+            Invoke("ShootCooldown", pb.st.shootAttackSpeed);
         }
+    }
+
+    void ShootCooldown()
+    {
+        shootCld = false;
     }
 
     void MeleeUpdate()

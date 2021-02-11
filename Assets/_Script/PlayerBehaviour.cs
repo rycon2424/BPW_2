@@ -14,8 +14,6 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Movement")]
     public bool canMove;
     public bool grounded;
-    public float moveSpeed;
-    public float sprintSpeed;
     public bool aiming;
     private float normalSpeed;
     public float jumpForce = 8.0f;
@@ -30,6 +28,7 @@ public class PlayerBehaviour : MonoBehaviour
     [Space]
 
     public bool canJump;
+    public bool sprinting;
     public Vector3 movement;
     public Vector3 lookoffset;
     
@@ -37,7 +36,7 @@ public class PlayerBehaviour : MonoBehaviour
     public Transform gunHand;
     public Vector3 hangOffset;
     public float grabHeight;
-
+    
     private State currentState;
 
     //Public hidden
@@ -45,15 +44,16 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public Transform chest;
     [HideInInspector] public CharacterController characterController;
     [HideInInspector] public PlayerCombat pc;
+    [HideInInspector] public PlayerStats st;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
         oc = FindObjectOfType<OrbitCamera>();
-        normalSpeed = moveSpeed;
         chest = anim.GetBoneTransform(HumanBodyBones.Chest);
         pc = GetComponent<PlayerCombat>();
+        st = GetComponent<PlayerStats>();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;

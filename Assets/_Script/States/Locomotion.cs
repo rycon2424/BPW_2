@@ -53,22 +53,21 @@ public class Locomotion : State
         moveVertical = Input.GetAxis("Vertical");
         pb.anim.SetFloat("Horizontal", Input.GetAxis("Horizontal"));
         pb.anim.SetFloat("Vertical", Input.GetAxis("Vertical"));
+        
+        float hasInput = Input.GetAxis("Vertical") + Input.GetAxis("Horizontal");
 
-        float sprintspeedlocal;
-
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && hasInput != 0 && pb.pc.inCombo == false)
         {
-            sprintspeedlocal = pb.sprintSpeed;
             pb.anim.SetBool("Sprinting", true);
         }
         else
         {
-            sprintspeedlocal = 0;
             pb.anim.SetBool("Sprinting", false);
         }
+        pb.sprinting = pb.anim.GetBool("Sprinting");
 
         pb.movement = (pb.transform.forward * moveVertical) + (pb.transform.right * moveHorizontal);
-        pb.movement = pb.movement.normalized * (pb.moveSpeed + sprintspeedlocal);
+        pb.movement = pb.movement.normalized;
         pb.movement.y = yMove;
 
         if (pb.characterController.isGrounded)
