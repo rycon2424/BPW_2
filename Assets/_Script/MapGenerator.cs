@@ -6,6 +6,8 @@ public class MapGenerator : MonoBehaviour
 {
     public int seed;
     public int mapLength;
+    [Range(0, 100)] public int goUpChance;
+    [Range(0, 100)] public int goDownChance;
     public Vector3 firstTilePosition;
     [Space]
     public GameObject tile;
@@ -44,9 +46,8 @@ public class MapGenerator : MonoBehaviour
             lastTile.transform.SetParent(firstTile);
 
             //yield return new WaitForEndOfFrame();
-
-            //Debug.Log("Current Tile = " + ap.gameObject.name +" Last tile was " + lastAp.gameObject.name);
-            OpenToLastTile();
+            
+            SetPosition();
             allTiles.Add(ap);
         }
         yield return null;
@@ -101,20 +102,17 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    void OpenToLastTile()
+    void SetPosition()
     {
         switch (lastAp.nextPos)
         {
             case AvailablePositions.nextPosition.forward:
-               // ap.backwardsPos.gameObject.SetActive(false);
                 ap.myPosition = lastAp.myPosition + new Vector3(0, 1, 0);
                 break;
             case AvailablePositions.nextPosition.left:
-              //  ap.rightPos.gameObject.SetActive(false);
                 ap.myPosition = lastAp.myPosition + new Vector3(-1, 0, 0);
                 break;
             case AvailablePositions.nextPosition.right:
-              //  ap.leftPos.gameObject.SetActive(false);
                 ap.myPosition = lastAp.myPosition + new Vector3(1, 0, 0);
                 break;
             default:
@@ -123,6 +121,8 @@ public class MapGenerator : MonoBehaviour
     }
 
     int lastRandom = -1;
+    bool goUp;
+    bool goDown;
     Vector3 RandomPosition()
     {
         int randomPosition = Random.Range(0, 3);
@@ -135,6 +135,19 @@ public class MapGenerator : MonoBehaviour
             randomPosition = Random.Range(0, 3);
         }
         lastRandom = randomPosition;
+        int goUpInt = Random.Range(0, 100);
+        int goDownInt = Random.Range(0, 100);
+        goUp = false;
+        goDown = false;
+        if (goUpInt <= goUpChance && goUpChance != 0)
+        {
+            goUp = true;
+        }
+        else if (goUpInt <= goDownChance && goDownChance != 0)
+        {
+            goDown = true;
+        }
+
         Vector3 nextPos = Vector3.zero;
         switch (randomPosition)
         {
@@ -152,6 +165,14 @@ public class MapGenerator : MonoBehaviour
                 break;
             default:
                 break;
+        }
+        if (goUp)
+        {
+            nextPos += new Vector3(0, 2, 0);
+        }
+        if (goDown)
+        {
+            nextPos += new Vector3(0, -2, 0);
         }
         return nextPos;
     }
