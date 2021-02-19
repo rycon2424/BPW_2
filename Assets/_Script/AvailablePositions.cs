@@ -18,4 +18,6 @@ public class AvailablePositions : MonoBehaviour
     public bool hasWallL;
     public bool hasWallR;
     public bool hasWallB;
+    [Space]
+    public bool hasChestOrEnemy;
 }

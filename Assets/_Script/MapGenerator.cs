@@ -29,12 +29,20 @@ public class MapGenerator : MonoBehaviour
     [Range(0, 100)] public int goDownChance;
     [Range(0, 100)] public int chestChance;
     [Range(0, 100)] public int torchChance;
+    public int chests;
+    public int enemies;
 
     void Start()
     {
         UnityEngine.Random.InitState(seed);
-        progress.maxValue = mapLength * 5 + 10;
         progress.value = 0;
+        if ((chests + enemies) > mapLength )
+        {
+            chests = 0;
+            enemies = 0;
+            Debug.LogError("Too many chests and/or enemies for the map size, placing no chests/enemies");
+        }
+        progress.maxValue = mapLength * 5 + chests + enemies + 10;
         info.text = "Creating Dungeon";
         StartCoroutine(Generator());
     }
@@ -71,11 +79,13 @@ public class MapGenerator : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         yield return null;
-        StartCoroutine(MakeRooms());
+        StartCoroutine(FinalizingMaze());
     }
 
-    IEnumerator MakeRooms()
+    IEnumerator FinalizingMaze()
     {
+        int r = 0;
+        AvailablePositions tempTile = null;
         info.text = "Creating Rooms";
         yield return null;
         foreach (AvailablePositions a in allTiles)
@@ -112,7 +122,7 @@ public class MapGenerator : MonoBehaviour
         yield return new WaitForEndOfFrame();
         foreach (AvailablePositions a in allTiles)
         {
-            int r = Random.Range(0, 100);
+            r = Random.Range(0, 100);
             if (r <= torchChance)
             {
                 if (a.hasWallF)
@@ -137,13 +147,42 @@ public class MapGenerator : MonoBehaviour
         }
         info.text = "Spawning Chests";
         yield return new WaitForEndOfFrame();
-        progress.value += mapLength;
+        for (int i = 0; i < chests; i++)
+        {
+            r = Random.Range(0, allTiles.Count);
+            tempTile = allTiles[r];
+            while (tempTile.hasChestOrEnemy)
+            {
+                r = Random.Range(0, allTiles.Count);
+                tempTile = allTiles[r];
+                yield return new WaitForEndOfFrame();
+            }
+            //SpawnChest
+            tempTile.hasChestOrEnemy = true;
+            progress.value++;
+        }
         info.text = "Building Navmesh";
         yield return new WaitForEndOfFrame();
         foreach (var i in nms)
         {
             i.BuildNavMesh();
             yield return new WaitForEndOfFrame();
+            progress.value++;
+        }
+        info.text = "Placing Enemies";
+        yield return new WaitForSeconds(2);
+        for (int i = 0; i < enemies; i++)
+        {
+            r = Random.Range(0, allTiles.Count);
+            tempTile = allTiles[r];
+            while (tempTile.hasChestOrEnemy)
+            {
+                r = Random.Range(0, allTiles.Count);
+                tempTile = allTiles[r];
+                yield return new WaitForEndOfFrame();
+            }
+            //SpawnEnemy
+            tempTile.hasChestOrEnemy = true;
             progress.value++;
         }
         yield return new WaitForSeconds(2);
