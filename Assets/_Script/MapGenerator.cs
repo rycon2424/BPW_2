@@ -1,21 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class MapGenerator : MonoBehaviour
 {
+    public GameObject player;
+
+    [Header("Game Settings")]
+    public Vector3 firstTilePosition;
+    [Space]
+    public GameObject tile;
+    public GameObject chest;
+    public GameObject torch;
+    public List<AvailablePositions> allTiles = new List<AvailablePositions>();
+    private List<NavMeshSurface> nms = new List<NavMeshSurface>();
+
+    [Header("UI Info")]
+    public GameObject loadingScreen;
+    public Slider progress;
+    public Text info;
+
+    [Header("Map generation settings")]
     public int seed;
     public int mapLength;
     [Range(0, 100)] public int goUpChance;
     [Range(0, 100)] public int goDownChance;
-    public Vector3 firstTilePosition;
-    [Space]
-    public GameObject tile;
-    public List<AvailablePositions> allTiles = new List<AvailablePositions>();
-    
+    [Range(0, 100)] public int chestChance;
+    [Range(0, 100)] public int torchChance;
+
     void Start()
     {
         UnityEngine.Random.InitState(seed);
+        progress.maxValue = mapLength * 5 + 10;
+        progress.value = 0;
+        info.text = "Creating Dungeon";
         StartCoroutine(Generator());
     }
 
@@ -37,18 +57,18 @@ public class MapGenerator : MonoBehaviour
             lastAp = ap;
             GameObject t = Instantiate(tile, RandomPosition(), Quaternion.identity);
             t.gameObject.name = "Tile " + i;
-            OpenCurrentTile();
             
             ap = t.GetComponent<AvailablePositions>();
+            nms.Add(t.transform.GetChild(0).GetComponent<NavMeshSurface>());
 
             lastTile = t;
 
             lastTile.transform.SetParent(firstTile);
-
-            //yield return new WaitForEndOfFrame();
             
             SetPosition();
             allTiles.Add(ap);
+            progress.value++;
+            yield return new WaitForEndOfFrame();
         }
         yield return null;
         StartCoroutine(MakeRooms());
@@ -56,7 +76,7 @@ public class MapGenerator : MonoBehaviour
 
     IEnumerator MakeRooms()
     {
-        Debug.Log("make rooms");
+        info.text = "Creating Rooms";
         yield return null;
         foreach (AvailablePositions a in allTiles)
         {
@@ -68,7 +88,9 @@ public class MapGenerator : MonoBehaviour
                 if (currentPos == aa.myPosition)
                 {
                     a.forwardPos.gameObject.SetActive(false);
+                    a.hasWallF = false;
                     aa.backwardsPos.gameObject.SetActive(false);
+                    aa.hasWallB = false;
                 }
             }
             currentPos = a.myPosition;
@@ -78,28 +100,59 @@ public class MapGenerator : MonoBehaviour
                 if (currentPos == aa.myPosition)
                 {
                     a.leftPos.gameObject.SetActive(false);
+                    a.hasWallL = false;
                     aa.rightPos.gameObject.SetActive(false);
+                    aa.hasWallR = false;
                 }
             }
+            yield return new WaitForEndOfFrame();
+            progress.value++;
         }
-    }
-
-    void OpenCurrentTile()
-    {
-        switch (ap.nextPos)
+        info.text = "Spawning Torches";
+        yield return new WaitForEndOfFrame();
+        foreach (AvailablePositions a in allTiles)
         {
-            case AvailablePositions.nextPosition.forward:
-                ap.forwardPos.gameObject.SetActive(false);
-                break;
-            case AvailablePositions.nextPosition.left:
-                ap.leftPos.gameObject.SetActive(false);
-                break;
-            case AvailablePositions.nextPosition.right:
-                ap.rightPos.gameObject.SetActive(false);
-                break;
-            default:
-                break;
+            int r = Random.Range(0, 100);
+            if (r <= torchChance)
+            {
+                if (a.hasWallF)
+                {
+                    a.forwardPos.GetChild(0).gameObject.SetActive(true);
+                }
+                else if (a.hasWallB)
+                {
+                    a.backwardsPos.GetChild(0).gameObject.SetActive(true);
+                }
+                else if (a.hasWallL)
+                {
+                    a.leftPos.GetChild(0).gameObject.SetActive(true);
+                }
+                else if (a.hasWallR)
+                {
+                    a.rightPos.GetChild(0).gameObject.SetActive(true);
+                }
+            }
+            yield return new WaitForEndOfFrame();
+            progress.value++;
         }
+        info.text = "Spawning Chests";
+        yield return new WaitForEndOfFrame();
+        progress.value += mapLength;
+        info.text = "Building Navmesh";
+        yield return new WaitForEndOfFrame();
+        foreach (var i in nms)
+        {
+            i.BuildNavMesh();
+            yield return new WaitForEndOfFrame();
+            progress.value++;
+        }
+        yield return new WaitForSeconds(2);
+        info.text = "Finalizing...";
+        yield return new WaitForSeconds(2);
+        progress.value = progress.maxValue;
+        yield return new WaitForSeconds(1);
+        player.SetActive(true);
+        loadingScreen.SetActive(false);
     }
 
     void SetPosition()

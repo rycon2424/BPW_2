@@ -59,16 +59,22 @@ public class Hanging : State
         Vector3 startPos = pb.transform.position - (pb.transform.forward * 0.1f);
         if (Input.GetKey(KeyCode.D))
         {
-            if (isPlaceToClimb(startPos + pb.transform.right, pb))
+            if (!isPlaceToClimb(startPos, pb.transform.right, 1f))
             {
-                pb.horizontal = Input.GetAxis("Horizontal");
+                if (isPlaceToClimb(startPos + (pb.transform.right * 0.75f), pb.transform.forward, 0.5f))
+                {
+                    pb.horizontal = Input.GetAxis("Horizontal");
+                }
             }
         }
         if (Input.GetKey(KeyCode.A))
         {
-            if (isPlaceToClimb(startPos + -pb.transform.right, pb))
+            if (!isPlaceToClimb(startPos, -pb.transform.right, 1f))
             {
-                pb.horizontal = Input.GetAxis("Horizontal");
+                if (isPlaceToClimb(startPos + (-pb.transform.right * 0.75f), pb.transform.forward, 0.5f))
+                {
+                    pb.horizontal = Input.GetAxis("Horizontal");
+                }
             }
         }
         pb.anim.SetFloat("Horizontal", pb.horizontal);
@@ -115,14 +121,14 @@ public class Hanging : State
         }
     }
 
-    bool isPlaceToClimb(Vector3 start, PlayerBehaviour pb)
+    bool isPlaceToClimb(Vector3 start, Vector3 dir, float length)
     {
         RaycastHit hit;
-        Ray ray = new Ray(start, pb.transform.forward);
-        Debug.DrawRay(start, pb.transform.forward, Color.blue, 1);
-        if (Physics.Raycast(ray, out hit, 1))
+        Ray ray = new Ray(start, dir);
+        Debug.DrawRay(start, dir * length, Color.blue, 0.1f);
+        if (Physics.Raycast(ray, out hit, length))
         {
-            //Debug.Log(hit.collider.name);
+            Debug.Log(hit.collider.name);
             return true;
         }
         else

@@ -83,6 +83,7 @@ public class Locomotion : State
             if (Input.GetButtonDown("Jump") && pb.canJump)
             {
                 pb.anim.SetTrigger("Jump");
+                pb.jumped = true;
                 pb.canJump = false;
                 pb.pc.InteruptAttack();
             }

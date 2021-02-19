@@ -27,6 +27,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     [Space]
 
+    public bool jumped;
     public bool canJump;
     public bool sprinting;
     public Vector3 movement;
@@ -133,7 +134,16 @@ public class PlayerBehaviour : MonoBehaviour
                 grounded = true;
                 if (StateMachine.IsInState("Locomotion"))
                 {
+                    if (jumped)
+                    {
+                        anim.SetTrigger("Rol");
+                        jumped = false;
+                    }
                     fallDuration = 0;
+                }
+                else
+                {
+                    jumped = false;
                 }
             }
         }
