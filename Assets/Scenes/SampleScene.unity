@@ -338,6 +338,16 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1468368719}
+    - target: {fileID: 6502309603645491842, guid: 96763ecbb4a5c6d429996a772ab93918,
+        type: 3}
+      propertyPath: goUpChance
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502309603645491842, guid: 96763ecbb4a5c6d429996a772ab93918,
+        type: 3}
+      propertyPath: goDownChance
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 6502309603645491843, guid: 96763ecbb4a5c6d429996a772ab93918,
         type: 3}
       propertyPath: m_LocalPosition.x

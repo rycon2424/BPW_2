@@ -41,7 +41,7 @@ public class MapGenerator : MonoBehaviour
             enemies = 0;
             Debug.LogError("Too many chests and/or enemies for the map size, placing no chests/enemies");
         }
-        progress.maxValue = mapLength * 5 + chests + enemies + 10;
+        progress.maxValue = mapLength * 6 + chests + enemies + 10;
         info.text = "Creating Dungeon";
         StartCoroutine(Generator());
     }
@@ -144,6 +144,18 @@ public class MapGenerator : MonoBehaviour
             yield return new WaitForEndOfFrame();
             progress.value++;
         }
+        info.text = "Spawning Hazards";
+        yield return new WaitForEndOfFrame();
+        foreach (AvailablePositions a in allTiles)
+        {
+            if (a.hasHazard)
+            {
+                a.hasObject = true;
+                a.hazard[Random.Range(0, a.hazard.Length)].SetActive(true);
+                yield return new WaitForEndOfFrame();
+            }
+            progress.value++;
+        }
         info.text = "Building Navmesh";
         yield return new WaitForEndOfFrame();
         foreach (var i in nms)
@@ -158,7 +170,7 @@ public class MapGenerator : MonoBehaviour
         {
             r = Random.Range(0, allTiles.Count);
             tempTile = allTiles[r];
-            while (tempTile.hasChestOrEnemy)
+            while (tempTile.hasObject)
             {
                 r = Random.Range(0, allTiles.Count);
                 tempTile = allTiles[r];
@@ -166,7 +178,7 @@ public class MapGenerator : MonoBehaviour
             }
             Transform spawnLocation = tempTile.spawnLocations[Random.Range(0, tempTile.spawnLocations.Length)];
             Instantiate(chest, spawnLocation.position, spawnLocation.rotation);
-            tempTile.hasChestOrEnemy = true;
+            tempTile.hasObject = true;
             progress.value++;
         }
         info.text = "Placing Enemies";
@@ -175,14 +187,14 @@ public class MapGenerator : MonoBehaviour
         {
             r = Random.Range(0, allTiles.Count);
             tempTile = allTiles[r];
-            while (tempTile.hasChestOrEnemy)
+            while (tempTile.hasObject)
             {
                 r = Random.Range(0, allTiles.Count);
                 tempTile = allTiles[r];
                 yield return new WaitForEndOfFrame();
             }
             //SpawnEnemy
-            tempTile.hasChestOrEnemy = true;
+            tempTile.hasObject = true;
             progress.value++;
         }
         yield return new WaitForSeconds(2);
@@ -215,6 +227,8 @@ public class MapGenerator : MonoBehaviour
     int lastRandom = -1;
     bool goUp;
     bool goDown;
+    int wentUp;
+    int wentDown;
     Vector3 RandomPosition()
     {
         int randomPosition = Random.Range(0, 3);
@@ -260,11 +274,30 @@ public class MapGenerator : MonoBehaviour
         }
         if (goUp)
         {
+            if (wentDown == 1)
+            {
+                ap.hasHazard = true;
+                wentUp = 0;
+                wentDown = 0;
+            }
+            else
+            {
+                wentUp = 1;
+            }
             nextPos += new Vector3(0, 2, 0);
         }
         if (goDown)
         {
+            if (wentUp == 1)
+            {
+                wentDown = 1;
+            }
             nextPos += new Vector3(0, -2, 0);
+        }
+        if (goUp == false && goDown == false)
+        {
+            wentUp = 0;
+            wentDown = 0;
         }
         return nextPos;
     }
