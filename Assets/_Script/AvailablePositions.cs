@@ -20,4 +20,6 @@ public class AvailablePositions : MonoBehaviour
     public bool hasWallB;
     [Space]
     public bool hasChestOrEnemy;
+    [Space]
+    public Transform[] spawnLocations;
 }

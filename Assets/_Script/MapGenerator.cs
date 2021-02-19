@@ -27,7 +27,6 @@ public class MapGenerator : MonoBehaviour
     public int mapLength;
     [Range(0, 100)] public int goUpChance;
     [Range(0, 100)] public int goDownChance;
-    [Range(0, 100)] public int chestChance;
     [Range(0, 100)] public int torchChance;
     public int chests;
     public int enemies;
@@ -145,6 +144,14 @@ public class MapGenerator : MonoBehaviour
             yield return new WaitForEndOfFrame();
             progress.value++;
         }
+        info.text = "Building Navmesh";
+        yield return new WaitForEndOfFrame();
+        foreach (var i in nms)
+        {
+            i.BuildNavMesh();
+            yield return new WaitForEndOfFrame();
+            progress.value++;
+        }
         info.text = "Spawning Chests";
         yield return new WaitForEndOfFrame();
         for (int i = 0; i < chests; i++)
@@ -157,16 +164,9 @@ public class MapGenerator : MonoBehaviour
                 tempTile = allTiles[r];
                 yield return new WaitForEndOfFrame();
             }
-            //SpawnChest
+            Transform spawnLocation = tempTile.spawnLocations[Random.Range(0, tempTile.spawnLocations.Length)];
+            Instantiate(chest, spawnLocation.position, spawnLocation.rotation);
             tempTile.hasChestOrEnemy = true;
-            progress.value++;
-        }
-        info.text = "Building Navmesh";
-        yield return new WaitForEndOfFrame();
-        foreach (var i in nms)
-        {
-            i.BuildNavMesh();
-            yield return new WaitForEndOfFrame();
             progress.value++;
         }
         info.text = "Placing Enemies";

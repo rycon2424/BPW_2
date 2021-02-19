@@ -334,7 +334,7 @@ MonoBehaviour:
   player: {fileID: 0}
   firstTilePosition: {x: 0, y: 0, z: 0}
   tile: {fileID: 7269035911841109842, guid: 8e836d8424e5deb4c8052b24a1ab0c41, type: 3}
-  chest: {fileID: 0}
+  chest: {fileID: 103087878520932637, guid: 5ec65902e32fbe8448d2aa4ba20d0807, type: 3}
   torch: {fileID: 6837758921416313042, guid: 05425478189b2084798e482c23f5f3a3, type: 3}
   allTiles: []
   loadingScreen: {fileID: 6502309603231701152}
@@ -344,8 +344,9 @@ MonoBehaviour:
   mapLength: 120
   goUpChance: 20
   goDownChance: 40
-  chestChance: 0
   torchChance: 40
+  chests: 10
+  enemies: 25
 --- !u!1 &6502309603702248410
 GameObject:
   m_ObjectHideFlags: 0
