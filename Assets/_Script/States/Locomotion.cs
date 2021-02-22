@@ -16,6 +16,7 @@ public class Locomotion : State
     {
         pb.crossHairUI.SetActive(false);
         pb.Aiming = false;
+        pb.canWallRun = false;
     }
 
     public override void StateUpdate(PlayerBehaviour pb)
@@ -31,7 +32,7 @@ public class Locomotion : State
         }
         if (pb.jumped)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && pb.canWallRun)
             {
                 switch (CheckForWallRun(pb))
                 {
@@ -91,7 +92,7 @@ public class Locomotion : State
         {
             pb.grabHeight = hit.point.y - pb.transform.position.y;
             StateMachine.GoToState(pb, "Hanging");
-            Debug.Log(hit.collider.name);
+            //Debug.Log(hit.collider.name);
         }
     }
 

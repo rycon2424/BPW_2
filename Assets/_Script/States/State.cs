@@ -20,4 +20,9 @@ public class State
     {
     }
 
+    public virtual void AnimatorIKUpdate(PlayerBehaviour pb)
+    {
+
+    }
+
 }

@@ -9,7 +9,7 @@ public class PlayerBehaviour : MonoBehaviour
     public Transform cameraObject;
     public float horizontal;
 
-    public LayerMask hitGround;
+    public LayerMask rayIgnorePlayer;
 
     [Header("Movement")]
     public bool canMove;
@@ -47,6 +47,7 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public PlayerCombat pc;
     [HideInInspector] public PlayerStats st;
     [HideInInspector] public int wallRunState;
+    [HideInInspector] public bool canWallRun;
 
     void Start()
     {
@@ -208,6 +209,7 @@ public class PlayerBehaviour : MonoBehaviour
     float lerping = 0;
     private void OnAnimatorIK()
     {
+        currentState.AnimatorIKUpdate(this);
         if (StateMachine.IsInState("Locomotion") && grounded && !anim.GetBool("Sprinting"))
         {
             if (Input.GetMouseButton(1) && !pc.inCombo)
@@ -310,7 +312,6 @@ public class PlayerBehaviour : MonoBehaviour
             Vector3 temp = pb.transform.position - hit.point;
             temp.y = 0;
             Vector3 positionToSend = pb.transform.position - temp;
-            Debug.Log("Distance between player and wall = " + positionToSend);
             if (lerp)
             {
                 pb.LerpToPosition(positionToSend);
@@ -322,6 +323,35 @@ public class PlayerBehaviour : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public bool isPlaceToClimb(Vector3 start, Vector3 dir, float length)
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(start, dir);
+        Debug.DrawRay(start, dir * length, Color.blue);
+        if (Physics.Raycast(ray, out hit, length, rayIgnorePlayer))
+        {
+            //Debug.Log(hit.collider.name);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    //Called in animation
+    public void A_CanWallRun(int enable)
+    {
+        if (enable == 1)
+        {
+            canWallRun = true;
+        }
+        else
+        {
+            canWallRun = false;
+        }
     }
 
 }

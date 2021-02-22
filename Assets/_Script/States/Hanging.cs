@@ -39,9 +39,9 @@ public class Hanging : State
         Vector3 startPos = pb.transform.position - (pb.transform.forward * 0.1f);
         if (Input.GetKey(KeyCode.D))
         {
-            if (!isPlaceToClimb(startPos, pb.transform.right, 1f) && !isPlaceToClimb(startPos + offset, pb.transform.right, 1f))
+            if (!pb.isPlaceToClimb(startPos, pb.transform.right, 1f) && !pb.isPlaceToClimb(startPos + offset, pb.transform.right, 1f))
             {
-                if (isPlaceToClimb(startPos + (pb.transform.right * 0.75f), pb.transform.forward, 0.5f))
+                if (pb.isPlaceToClimb(startPos + (pb.transform.right * 0.75f), pb.transform.forward, 0.5f))
                 {
                     pb.horizontal = Input.GetAxis("Horizontal");
                 }
@@ -49,9 +49,9 @@ public class Hanging : State
         }
         if (Input.GetKey(KeyCode.A))
         {
-            if (!isPlaceToClimb(startPos, -pb.transform.right, 1f) && !isPlaceToClimb(startPos + offset, -pb.transform.right, 1f))
+            if (!pb.isPlaceToClimb(startPos, -pb.transform.right, 1f) && !pb.isPlaceToClimb(startPos + offset, -pb.transform.right, 1f))
             {
-                if (isPlaceToClimb(startPos + (-pb.transform.right * 0.75f), pb.transform.forward, 0.5f))
+                if (pb.isPlaceToClimb(startPos + (-pb.transform.right * 0.75f), pb.transform.forward, 0.5f))
                 {
                     pb.horizontal = Input.GetAxis("Horizontal");
                 }
@@ -100,23 +100,7 @@ public class Hanging : State
             return true;
         }
     }
-
-    bool isPlaceToClimb(Vector3 start, Vector3 dir, float length)
-    {
-        RaycastHit hit;
-        Ray ray = new Ray(start, dir);
-        Debug.DrawRay(start, dir * length, Color.blue, 0.1f);
-        if (Physics.Raycast(ray, out hit, length))
-        {
-            Debug.Log(hit.collider.name);
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
+    
     public override void StateLateUpdate(PlayerBehaviour pb)
     {
 
