@@ -36,13 +36,15 @@ public class Locomotion : State
                 switch (CheckForWallRun(pb))
                 {
                     case 0:
-                        Debug.Log("NoWall");
+                        pb.wallRunState = 0;
                         break;
                     case 1:
-                        Debug.Log("WallRight");
+                        pb.wallRunState = 1;
+                        StateMachine.GoToState(pb, "WallRun");
                         break;
                     case 2:
-                        Debug.Log("WallLeft");
+                        pb.wallRunState = 2;
+                        StateMachine.GoToState(pb, "WallRun");
                         break;
                     default:
                         break;
@@ -55,14 +57,13 @@ public class Locomotion : State
     {
         if (RaycastCheck(pb.transform.position + Vector3.up * 0.5f, -pb.transform.up, 1))
         {
-            Debug.Log("Too low for wallrun");
             return 0;
         }
-        else if (RaycastCheck(pb.transform.position + Vector3.up, pb.transform.right, 1))
+        else if (RaycastCheck(pb.transform.position + Vector3.up, pb.transform.right, 0.65f))
         {
             return 1;
         }
-        else if (RaycastCheck(pb.transform.position + Vector3.up, -pb.transform.right, 1))
+        else if (RaycastCheck(pb.transform.position + Vector3.up, -pb.transform.right, 0.65f))
         {
             return 2;
         }

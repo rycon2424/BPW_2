@@ -78,7 +78,6 @@ public class PlayerCombat : MonoBehaviour
         inCombo = false;
         pb.anim.SetBool("Combo", false);
         pb.anim.SetBool("Attack", false);
-        Debug.Log("Reset");
     }
 
     public void Sheat()

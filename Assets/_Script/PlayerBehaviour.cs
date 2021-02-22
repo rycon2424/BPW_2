@@ -46,6 +46,7 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public CharacterController characterController;
     [HideInInspector] public PlayerCombat pc;
     [HideInInspector] public PlayerStats st;
+    [HideInInspector] public int wallRunState;
 
     void Start()
     {
@@ -69,12 +70,14 @@ public class PlayerBehaviour : MonoBehaviour
         Locomotion lm = new Locomotion();
         Hanging hg = new Hanging();
         Falling fa = new Falling();
+        WallRun wr = new WallRun();
         StateBetween sb = new StateBetween();
 
         StateMachine.allStates.Add(lm);
         StateMachine.allStates.Add(hg);
         StateMachine.allStates.Add(fa);
         StateMachine.allStates.Add(sb);
+        StateMachine.allStates.Add(wr);
         StateMachine.GoToState(this, "Locomotion");
     }
 
@@ -280,13 +283,14 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
     
-    public bool PlayerFaceWall(PlayerBehaviour pb)
+    public bool PlayerFaceWall(PlayerBehaviour pb, Vector3 startOffset, Vector3 dir)
     {
         RaycastHit hit;
         float range = 2;
         Vector3 playerHeight = new Vector3(pb.transform.position.x, pb.transform.position.y + 1f, pb.transform.position.z);
-        Debug.DrawRay(playerHeight, pb.transform.forward * range, Color.cyan, 5);
-        if (Physics.Raycast(playerHeight, pb.transform.forward, out hit, range))
+        playerHeight += startOffset;
+        Debug.DrawRay(playerHeight, dir * range, Color.cyan, 5);
+        if (Physics.Raycast(playerHeight, dir, out hit, range))
         {
             pb.transform.rotation = Quaternion.LookRotation(-hit.normal, Vector3.up);
             return true;
@@ -295,20 +299,28 @@ public class PlayerBehaviour : MonoBehaviour
         return false;
     }
 
-    public bool PlayerToWall(PlayerBehaviour pb)
+    public bool PlayerToWall(PlayerBehaviour pb, Vector3 dir, bool lerp)
     {
         RaycastHit hit;
         float range = 2;
         Vector3 playerHeight = new Vector3(pb.transform.position.x, pb.transform.position.y + 1f, pb.transform.position.z);
-        Debug.DrawRay(playerHeight, pb.transform.forward * range, Color.yellow, 5);
-        if (Physics.Raycast(playerHeight, pb.transform.forward, out hit, range))
+        //Debug.DrawRay(playerHeight, dir * range, Color.yellow, 2);
+        if (Physics.Raycast(playerHeight, dir, out hit, range))
         {
             Vector3 temp = pb.transform.position - hit.point;
             temp.y = 0;
-            pb.LerpToPosition(pb.transform.position - temp);
+            Vector3 positionToSend = pb.transform.position - temp;
+            Debug.Log("Distance between player and wall = " + positionToSend);
+            if (lerp)
+            {
+                pb.LerpToPosition(positionToSend);
+            }
+            else
+            {
+                transform.position = positionToSend;
+            }
             return true;
         }
-        Debug.Log("Fail");
         return false;
     }
 

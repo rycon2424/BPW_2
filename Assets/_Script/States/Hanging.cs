@@ -13,12 +13,12 @@ public class Hanging : State
         
         pb.transform.position = newPlayerPos;
 
-        if (!pb.PlayerFaceWall(pb))
+        if (!pb.PlayerFaceWall(pb, Vector3.zero, pb.transform.forward))
         {
             StateMachine.GoToState(pb, "Falling");
             return;
         }
-        if (!pb.PlayerToWall(pb))
+        if (!pb.PlayerToWall(pb, pb.transform.forward, true))
         {
             StateMachine.GoToState(pb, "Falling");
             return;
