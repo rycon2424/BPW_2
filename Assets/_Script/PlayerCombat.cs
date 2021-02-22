@@ -8,8 +8,8 @@ public class PlayerCombat : MonoBehaviour
     public bool shootCld;
     [Space]
     PlayerBehaviour pb;
-    public GameObject swordHand;
-    public GameObject swordBack;
+    public GameObject[] swordHand;
+    public GameObject[] swordBack;
     
     private void Start()
     {
@@ -57,8 +57,14 @@ public class PlayerCombat : MonoBehaviour
             {
                 inCombo = true;
                 pb.anim.SetBool("Combo", true);
-                swordBack.SetActive(false);
-                swordHand.SetActive(true);
+                foreach (var item in swordBack)
+                {
+                    item.SetActive(false);
+                }
+                foreach (var item in swordHand)
+                {
+                    item.SetActive(true);
+                }
             }
             else if (inCombo == true)
             {
@@ -72,9 +78,19 @@ public class PlayerCombat : MonoBehaviour
         inCombo = false;
         pb.anim.SetBool("Combo", false);
         pb.anim.SetBool("Attack", false);
-        swordBack.SetActive(true);
-        swordHand.SetActive(false);
         Debug.Log("Reset");
+    }
+
+    public void Sheat()
+    {
+        foreach (var item in swordBack)
+        {
+            item.SetActive(true);
+        }
+        foreach (var item in swordHand)
+        {
+            item.SetActive(false);
+        }
     }
 
     public void WaitForNextAttack()

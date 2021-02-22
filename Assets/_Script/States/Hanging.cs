@@ -56,10 +56,11 @@ public class Hanging : State
     
     public override void StateUpdate(PlayerBehaviour pb)
     {
+        Vector3 offset = (pb.transform.up * 1.25f) + (pb.transform.forward * 0.2f);
         Vector3 startPos = pb.transform.position - (pb.transform.forward * 0.1f);
         if (Input.GetKey(KeyCode.D))
         {
-            if (!isPlaceToClimb(startPos, pb.transform.right, 1f))
+            if (!isPlaceToClimb(startPos, pb.transform.right, 1f) && !isPlaceToClimb(startPos + offset, pb.transform.right, 1f))
             {
                 if (isPlaceToClimb(startPos + (pb.transform.right * 0.75f), pb.transform.forward, 0.5f))
                 {
@@ -69,7 +70,7 @@ public class Hanging : State
         }
         if (Input.GetKey(KeyCode.A))
         {
-            if (!isPlaceToClimb(startPos, -pb.transform.right, 1f))
+            if (!isPlaceToClimb(startPos, -pb.transform.right, 1f) && !isPlaceToClimb(startPos + offset, -pb.transform.right, 1f))
             {
                 if (isPlaceToClimb(startPos + (-pb.transform.right * 0.75f), pb.transform.forward, 0.5f))
                 {
