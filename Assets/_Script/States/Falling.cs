@@ -7,6 +7,7 @@ public class Falling : State
 
     public override void OnStateEnter(PlayerBehaviour pb)
     {
+        pb.anim.applyRootMotion = true;
         pb.characterController.enabled = true;
         pb.anim.SetTrigger("Falling");
         pb.anim.SetInteger("FallType", -1);

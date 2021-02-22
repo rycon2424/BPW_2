@@ -29,8 +29,36 @@ public class Locomotion : State
         {
             FindLedge(pb);
         }
+        if (pb.jumped)
+        {
+            CheckForWallRun(pb);
+        }
     }
     
+    void CheckForWallRun(PlayerBehaviour pb)
+    {
+        if (RaycastCheck(pb.transform.position + Vector3.up, pb.transform.right, 1))
+        {
+
+        }
+        else if (RaycastCheck(pb.transform.position + Vector3.up, -pb.transform.right, 1))
+        {
+
+        }
+    }
+
+    bool RaycastCheck(Vector3 start, Vector3 dir, float range)
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(start, dir);
+        Debug.DrawRay(start, dir * range, Color.black);
+        if (Physics.Raycast(ray, out hit, range))
+        {
+            return true;
+        }
+        return false;
+    }
+
     void FindLedge(PlayerBehaviour pb)
     {
         RaycastHit hit;

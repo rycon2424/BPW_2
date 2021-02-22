@@ -268,5 +268,37 @@ public class PlayerBehaviour : MonoBehaviour
             gunHoldster.SetActive(!aiming);
         }
     }
+    
+    public bool PlayerFaceWall(PlayerBehaviour pb)
+    {
+        RaycastHit hit;
+        float range = 2;
+        Vector3 playerHeight = new Vector3(pb.transform.position.x, pb.transform.position.y + 1f, pb.transform.position.z);
+        Debug.DrawRay(playerHeight, pb.transform.forward * range, Color.cyan, 5);
+        if (Physics.Raycast(playerHeight, pb.transform.forward, out hit, range))
+        {
+            pb.transform.rotation = Quaternion.LookRotation(-hit.normal, Vector3.up);
+            return true;
+        }
+        Debug.Log("Fail");
+        return false;
+    }
+
+    public bool PlayerToWall(PlayerBehaviour pb)
+    {
+        RaycastHit hit;
+        float range = 2;
+        Vector3 playerHeight = new Vector3(pb.transform.position.x, pb.transform.position.y + 1f, pb.transform.position.z);
+        Debug.DrawRay(playerHeight, pb.transform.forward * range, Color.yellow, 5);
+        if (Physics.Raycast(playerHeight, pb.transform.forward, out hit, range))
+        {
+            Vector3 temp = pb.transform.position - hit.point;
+            temp.y = 0;
+            pb.LerpToPosition(pb.transform.position - temp);
+            return true;
+        }
+        Debug.Log("Fail");
+        return false;
+    }
 
 }
