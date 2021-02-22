@@ -124,9 +124,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void HitGround()
     {
-        RaycastHit hit;
-        Debug.DrawRay(transform.position + Vector3.up * 0.5f, Vector3.down * 0.75f, Color.red, 1);
-        if (Physics.Raycast(transform.position + Vector3.up * 0.5f, Vector3.down, out hit, 0.75f))
+        if (GroundRaycast(transform.forward * 0.25f) || GroundRaycast(transform.right * 0.25f) ||
+            GroundRaycast(transform.right * -0.25f) || GroundRaycast(transform.forward * -0.25f))
         {
             if (grounded != true)
             {
@@ -156,6 +155,18 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
         canJump = grounded;
+    }
+
+    bool GroundRaycast(Vector3 offset)
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position + Vector3.up * 0.5f + offset, Vector3.down);
+        Debug.DrawRay(transform.position + Vector3.up * 0.5f + offset, Vector3.down * 0.75f);
+        if (Physics.Raycast(ray, out hit, 0.75f))
+        {
+            return true;
+        }
+        return false;
     }
 
     public void NextState(string state)

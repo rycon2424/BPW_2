@@ -31,27 +31,49 @@ public class Locomotion : State
         }
         if (pb.jumped)
         {
-            CheckForWallRun(pb);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                switch (CheckForWallRun(pb))
+                {
+                    case 0:
+                        Debug.Log("NoWall");
+                        break;
+                    case 1:
+                        Debug.Log("WallRight");
+                        break;
+                    case 2:
+                        Debug.Log("WallLeft");
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
     
-    void CheckForWallRun(PlayerBehaviour pb)
+    int CheckForWallRun(PlayerBehaviour pb)
     {
-        if (RaycastCheck(pb.transform.position + Vector3.up, pb.transform.right, 1))
+        if (RaycastCheck(pb.transform.position + Vector3.up * 0.5f, -pb.transform.up, 1))
         {
-
+            Debug.Log("Too low for wallrun");
+            return 0;
+        }
+        else if (RaycastCheck(pb.transform.position + Vector3.up, pb.transform.right, 1))
+        {
+            return 1;
         }
         else if (RaycastCheck(pb.transform.position + Vector3.up, -pb.transform.right, 1))
         {
-
+            return 2;
         }
+        return 0;
     }
 
     bool RaycastCheck(Vector3 start, Vector3 dir, float range)
     {
         RaycastHit hit;
         Ray ray = new Ray(start, dir);
-        Debug.DrawRay(start, dir * range, Color.black);
+        Debug.DrawRay(start, dir * range, Color.black, 0.5f);
         if (Physics.Raycast(ray, out hit, range))
         {
             return true;
