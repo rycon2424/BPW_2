@@ -34,53 +34,9 @@ public class Locomotion : State
         {
             if (Input.GetKeyDown(KeyCode.Space) && pb.canWallRun)
             {
-                switch (CheckForWallRun(pb))
-                {
-                    case 0:
-                        pb.wallRunState = 0;
-                        break;
-                    case 1:
-                        pb.wallRunState = 1;
-                        StateMachine.GoToState(pb, "WallRun");
-                        break;
-                    case 2:
-                        pb.wallRunState = 2;
-                        StateMachine.GoToState(pb, "WallRun");
-                        break;
-                    default:
-                        break;
-                }
+                pb.TryWallRun();
             }
         }
-    }
-    
-    int CheckForWallRun(PlayerBehaviour pb)
-    {
-        if (RaycastCheck(pb.transform.position + Vector3.up * 0.5f, -pb.transform.up, 1))
-        {
-            return 0;
-        }
-        else if (RaycastCheck(pb.transform.position + Vector3.up, pb.transform.right, 0.65f))
-        {
-            return 1;
-        }
-        else if (RaycastCheck(pb.transform.position + Vector3.up, -pb.transform.right, 0.65f))
-        {
-            return 2;
-        }
-        return 0;
-    }
-
-    bool RaycastCheck(Vector3 start, Vector3 dir, float range)
-    {
-        RaycastHit hit;
-        Ray ray = new Ray(start, dir);
-        Debug.DrawRay(start, dir * range, Color.black, 0.5f);
-        if (Physics.Raycast(ray, out hit, range))
-        {
-            return true;
-        }
-        return false;
     }
 
     void FindLedge(PlayerBehaviour pb)
@@ -101,14 +57,14 @@ public class Locomotion : State
     void MovementAndJump(PlayerBehaviour pb)
     {
         float yMove = pb.movement.y;
-        moveHorizontal = Input.GetAxis("Horizontal");
-        moveVertical = Input.GetAxis("Vertical");
-        pb.anim.SetFloat("Horizontal", Input.GetAxis("Horizontal"));
-        pb.anim.SetFloat("Vertical", Input.GetAxis("Vertical"));
+        moveHorizontal = Input.GetAxis(pb.kc.xAxis);
+        moveVertical = Input.GetAxis(pb.kc.yAxis);
+        pb.anim.SetFloat(pb.kc.xAxis, Input.GetAxis(pb.kc.xAxis));
+        pb.anim.SetFloat(pb.kc.yAxis, Input.GetAxis(pb.kc.yAxis));
         
-        float hasInput = Input.GetAxis("Vertical") + Input.GetAxis("Horizontal");
+        float hasInput = Input.GetAxis(pb.kc.yAxis) + Input.GetAxis(pb.kc.xAxis);
 
-        if (Input.GetKey(KeyCode.LeftShift) && hasInput != 0 && pb.pc.inCombo == false)
+        if (Input.GetKey(pb.kc.sprint) && hasInput != 0 && pb.pc.inCombo == false)
         {
             pb.anim.SetBool("Sprinting", true);
         }
@@ -132,7 +88,7 @@ public class Locomotion : State
         if (pb.characterController.isGrounded || pb.grounded)
         {
             pb.pc.CombatUpdate();
-            if (Input.GetButtonDown("Jump") && pb.canJump)
+            if (Input.GetKeyDown(pb.kc.jump) && pb.canJump)
             {
                 pb.anim.SetTrigger("Jump");
                 pb.jumped = true;

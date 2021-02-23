@@ -42,6 +42,12 @@ public class WallRun : State
     float wallClimb;
     public override void StateUpdate(PlayerBehaviour pb)
     {
+        if (Input.GetKeyDown(pb.kc.jump))
+        {
+            pb.anim.SetTrigger("Jump");
+            pb.jumped = true;
+            StateMachine.GoToState(pb, "StateBetween");
+        }
         if (right)
         {
             if (!CheckForWallsRight(pb))
@@ -56,7 +62,7 @@ public class WallRun : State
                 StateMachine.GoToState(pb, "Falling");
             }
         }
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(pb.kc.drop))
         {
             StateMachine.GoToState(pb, "Falling");
         }
@@ -76,7 +82,7 @@ public class WallRun : State
             {
                 if (pb.isPlaceToClimb(startPoint, pb.transform.right, 0.5f))
                 {
-                    return -pb.transform.right * 0.1f;
+                    return -pb.transform.right * 0.05f;
                 }
                 else
                 {
@@ -87,7 +93,7 @@ public class WallRun : State
             {
                 if (pb.isPlaceToClimb(startPoint, -pb.transform.right, 0.5f))
                 {
-                    return pb.transform.right * 0.1f;
+                    return pb.transform.right * 0.05f;
                 }
                 else
                 {
@@ -106,7 +112,6 @@ public class WallRun : State
                || pb.isPlaceToClimb(pb.transform.position + Vector3.up / 2, pb.transform.forward, 1f)
                || pb.isPlaceToClimb(pb.transform.position + Vector3.up * 1.5f, pb.transform.forward, 1f))
             {
-                Debug.Log("Hit an wall up front");
                 return false;
             }
             else
@@ -116,7 +121,6 @@ public class WallRun : State
         }
         else
         {
-            Debug.Log("No wall left to climb further");
             return false;
         }
     }
@@ -129,12 +133,10 @@ public class WallRun : State
               || pb.isPlaceToClimb(pb.transform.position + Vector3.up / 2, pb.transform.forward, 1f)
               || pb.isPlaceToClimb(pb.transform.position + Vector3.up * 1.5f, pb.transform.forward, 1f))
             {
-                Debug.Log("Hit an wall up front");
                 return false;
             }
             else
             {
-                Debug.Log("No wall left to climb further");
                 return true;
             }
         }

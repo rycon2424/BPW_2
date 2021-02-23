@@ -16,7 +16,13 @@ public class StateBetween : State
 
     public override void StateUpdate(PlayerBehaviour pb)
     {
-
+        if (pb.jumped && pb.canWallRun)
+        {
+            if (Input.GetKey(pb.kc.jump))
+            {
+                pb.TryWallRun();
+            }
+        }
     }
 
     public override void StateLateUpdate(PlayerBehaviour pb)

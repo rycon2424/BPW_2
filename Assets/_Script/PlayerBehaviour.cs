@@ -46,6 +46,7 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public CharacterController characterController;
     [HideInInspector] public PlayerCombat pc;
     [HideInInspector] public PlayerStats st;
+    [HideInInspector] public PlayerKeyCodes kc;
     [HideInInspector] public int wallRunState;
     [HideInInspector] public bool canWallRun;
 
@@ -57,6 +58,7 @@ public class PlayerBehaviour : MonoBehaviour
         chest = anim.GetBoneTransform(HumanBodyBones.Chest);
         pc = GetComponent<PlayerCombat>();
         st = GetComponent<PlayerStats>();
+        kc = GetComponent<PlayerKeyCodes>();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -84,6 +86,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(canWallRun);
         HitGround();
         currentState.StateUpdate(this);
     }
@@ -175,6 +178,10 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void NextState(string state)
     {
+        if (StateMachine.IsInState("WallRun"))
+        {
+            return;
+        }
         StateMachine.GoToState(this, state);
     }
 
@@ -352,6 +359,43 @@ public class PlayerBehaviour : MonoBehaviour
         {
             canWallRun = false;
         }
+    }
+
+    public void TryWallRun()
+    {
+        switch (CheckForWallRun())
+        {
+            case 0:
+                wallRunState = 0;
+                break;
+            case 1:
+                wallRunState = 1;
+                StateMachine.GoToState(this, "WallRun");
+                break;
+            case 2:
+                wallRunState = 2;
+                StateMachine.GoToState(this, "WallRun");
+                break;
+            default:
+                break;
+        }
+    }
+
+    int CheckForWallRun()
+    {
+        if (isPlaceToClimb(transform.position + Vector3.up, -transform.up, 1.8f))
+        {
+            return 0;
+        }
+        else if (isPlaceToClimb(transform.position + Vector3.up, transform.right, 0.7f))
+        {
+            return 1;
+        }
+        else if (isPlaceToClimb(transform.position + Vector3.up, -transform.right, 0.7f))
+        {
+            return 2;
+        }
+        return 0;
     }
 
 }

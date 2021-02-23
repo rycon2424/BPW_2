@@ -43,7 +43,7 @@ public class Hanging : State
             {
                 if (pb.isPlaceToClimb(startPos + (pb.transform.right * 0.75f), pb.transform.forward, 0.5f))
                 {
-                    pb.horizontal = Input.GetAxis("Horizontal");
+                    pb.horizontal = Input.GetAxis(pb.kc.xAxis);
                 }
             }
         }
@@ -53,7 +53,7 @@ public class Hanging : State
             {
                 if (pb.isPlaceToClimb(startPos + (-pb.transform.right * 0.75f), pb.transform.forward, 0.5f))
                 {
-                    pb.horizontal = Input.GetAxis("Horizontal");
+                    pb.horizontal = Input.GetAxis(pb.kc.xAxis);
                 }
             }
         }
@@ -71,11 +71,11 @@ public class Hanging : State
         {
             pb.horizontal = 0;
         }
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(pb.kc.drop))
         {
             StateMachine.GoToState(pb, "Falling");
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
+        else if (Input.GetKeyDown(pb.kc.jump))
         {
             if (IsRoomToClimb(pb))
             {
