@@ -36,7 +36,7 @@ public class WallRun : State
 
     public override void StateLateUpdate(PlayerBehaviour pb)
     {
-        wallClimb -= 0.0075f;
+        wallClimb -= 0.007f;
     }
 
     float wallClimb;
@@ -61,7 +61,7 @@ public class WallRun : State
             StateMachine.GoToState(pb, "Falling");
         }
         Vector3 dir = Vector3.zero;
-        dir = pb.transform.forward * Time.deltaTime * 4 + TooCloseToWall(pb);
+        dir = pb.transform.forward * Time.deltaTime * 5 + TooCloseToWall(pb);
         dir += Vector3.up * wallClimb * Time.deltaTime;
         Debug.Log(dir);
         pb.characterController.Move(dir);
