@@ -25,7 +25,7 @@ public class Hanging : State
         }
         pb.anim.SetTrigger("Hang");
 
-        pb.DelayTurnOnRoot(0.25f);
+        pb.DelayFunction("DelayedRoot", 0.25f);
     }
 
     public override void OnStateExit(PlayerBehaviour pb)

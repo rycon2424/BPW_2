@@ -116,11 +116,11 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    public void DelayTurnOnRoot(float delay)
+    public void DelayFunction(string functionName ,float delay)
     {
-        Invoke("DelayedRoot", delay);
+        Invoke(functionName, delay);
     }
-
+    
     void DelayedRoot()
     {
         anim.applyRootMotion = true;

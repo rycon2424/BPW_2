@@ -5,27 +5,27 @@ using UnityEngine;
 public class WallRun : State
 {
     public bool right;
+    bool closeToWall;
     public override void OnStateEnter(PlayerBehaviour pb)
     {
         pb.anim.applyRootMotion = false;
         wallClimb = 1;
-        //pb.characterController.enabled = false;
         Vector3 newPlayerPos = Vector3.zero;
         if (pb.PlayerToWall(pb, -pb.transform.right * 0.75f, false))
         {
             pb.PlayerFaceWall(pb, pb.transform.right * 0.25f ,-pb.transform.right);
-            //newPlayerPos = -pb.transform.forward * 0.8f;
+            pb.transform.Rotate(0, 90, 0);
             right = false;
         }
         else if (pb.PlayerToWall(pb, pb.transform.right * 0.75f, false))
         {
             pb.PlayerFaceWall(pb, -pb.transform.right * 0.25f, pb.transform.right);
-            //newPlayerPos = pb.transform.forward * 0.8f;
-            right = true;;
+            pb.transform.Rotate(0, -90, 0);
+            right = true;
         }
         pb.anim.SetBool("WallRunRight", !right);
         pb.anim.SetBool("WallRun", true);
-        //pb.transform.position += newPlayerPos;
+        closeToWall = true;
     }
 
     public override void OnStateExit(PlayerBehaviour pb)
@@ -36,7 +36,7 @@ public class WallRun : State
 
     public override void StateLateUpdate(PlayerBehaviour pb)
     {
-        wallClimb -= 0.005f;
+        wallClimb -= 0.0075f;
     }
 
     float wallClimb;
@@ -46,7 +46,6 @@ public class WallRun : State
         {
             if (!CheckForWallsRight(pb))
             {
-                pb.transform.Rotate(0, -90, 0);
                 StateMachine.GoToState(pb, "Falling");
             }
         }
@@ -54,7 +53,6 @@ public class WallRun : State
         {
             if (!CheckForWallsLeft(pb))
             {
-                pb.transform.Rotate(0, 90, 0);
                 StateMachine.GoToState(pb, "Falling");
             }
         }
@@ -63,25 +61,50 @@ public class WallRun : State
             StateMachine.GoToState(pb, "Falling");
         }
         Vector3 dir = Vector3.zero;
-        if (pb.anim.GetBool("WallRunRight"))
-        {
-            dir = pb.transform.right * Time.deltaTime * 4;
-        }
-        else
-        {
-            dir = -pb.transform.right * Time.deltaTime * 4;
-        }
+        dir = pb.transform.forward * Time.deltaTime * 4 + TooCloseToWall(pb);
         dir += Vector3.up * wallClimb * Time.deltaTime;
+        Debug.Log(dir);
         pb.characterController.Move(dir);
+    }
+
+    Vector3 TooCloseToWall(PlayerBehaviour pb)
+    {
+        if (closeToWall)
+        {
+            Vector3 startPoint = pb.transform.position + Vector3.up * 0.8f;
+            if (right)
+            {
+                if (pb.isPlaceToClimb(startPoint, pb.transform.right, 0.5f))
+                {
+                    return -pb.transform.right * 0.1f;
+                }
+                else
+                {
+                    return Vector3.zero;
+                }
+            }
+            else
+            {
+                if (pb.isPlaceToClimb(startPoint, -pb.transform.right, 0.5f))
+                {
+                    return pb.transform.right * 0.1f;
+                }
+                else
+                {
+                    return Vector3.zero;
+                }
+            }
+        }
+        return Vector3.zero;
     }
 
     bool CheckForWallsLeft(PlayerBehaviour pb)
     {
-        if (pb.isPlaceToClimb(pb.transform.position + Vector3.up + (-pb.transform.forward * 0.2f), pb.transform.forward, 0.85f))
+        if (pb.isPlaceToClimb(pb.transform.position + Vector3.up + (pb.transform.right * 0.2f), -pb.transform.right, 1.25f))
         {
-            if (pb.isPlaceToClimb(pb.transform.position + Vector3.up, pb.transform.right, 1f)
-               || pb.isPlaceToClimb(pb.transform.position + Vector3.up / 2, pb.transform.right, 1f)
-               || pb.isPlaceToClimb(pb.transform.position + Vector3.up * 1.5f, pb.transform.right, 1f))
+            if (pb.isPlaceToClimb(pb.transform.position + Vector3.up, pb.transform.forward, 1f)
+               || pb.isPlaceToClimb(pb.transform.position + Vector3.up / 2, pb.transform.forward, 1f)
+               || pb.isPlaceToClimb(pb.transform.position + Vector3.up * 1.5f, pb.transform.forward, 1f))
             {
                 Debug.Log("Hit an wall up front");
                 return false;
@@ -100,11 +123,11 @@ public class WallRun : State
 
     bool CheckForWallsRight(PlayerBehaviour pb)
     {
-        if (pb.isPlaceToClimb(pb.transform.position + Vector3.up + (-pb.transform.forward * 0.2f), pb.transform.forward, 0.85f))
+        if (pb.isPlaceToClimb(pb.transform.position + Vector3.up + (-pb.transform.right * 0.2f), pb.transform.right, 0.85f))
         {
-            if (pb.isPlaceToClimb(pb.transform.position + Vector3.up, -pb.transform.right, 1f)
-              || pb.isPlaceToClimb(pb.transform.position + Vector3.up / 2, -pb.transform.right, 1f)
-              || pb.isPlaceToClimb(pb.transform.position + Vector3.up * 1.5f, -pb.transform.right, 1f))
+            if (pb.isPlaceToClimb(pb.transform.position + Vector3.up, pb.transform.forward, 1f)
+              || pb.isPlaceToClimb(pb.transform.position + Vector3.up / 2, pb.transform.forward, 1f)
+              || pb.isPlaceToClimb(pb.transform.position + Vector3.up * 1.5f, pb.transform.forward, 1f))
             {
                 Debug.Log("Hit an wall up front");
                 return false;
@@ -127,13 +150,12 @@ public class WallRun : State
         Ray ray;
         if (right)
         {
-            ray = new Ray(pb.transform.position + Vector3.up * 1.3f, pb.transform.forward);
-            Debug.DrawRay(pb.transform.position + Vector3.up * 1.3f, pb.transform.forward * 1.5f, Color.green);
+            ray = new Ray(pb.transform.position + Vector3.up * 1.3f, pb.transform.right);
+            Debug.DrawRay(pb.transform.position + Vector3.up * 1.3f, pb.transform.right * 1.5f, Color.green);
             if (Physics.Raycast(ray, out hit, 1.5f))
             {
                 pb.anim.SetIKPosition(AvatarIKGoal.RightHand, hit.point);
                 pb.anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
-                Debug.Log(hit.collider.name);
             }
             else
             {
@@ -142,13 +164,12 @@ public class WallRun : State
         }
         else
         {
-            ray = new Ray(pb.transform.position + Vector3.up * 1.3f, pb.transform.forward);
-            Debug.DrawRay(pb.transform.position + Vector3.up * 1.3f, pb.transform.forward * 1.5f, Color.green);
+            ray = new Ray(pb.transform.position + Vector3.up * 1.3f, -pb.transform.right);
+            Debug.DrawRay(pb.transform.position + Vector3.up * 1.3f, -pb.transform.right * 1.5f, Color.green);
             if (Physics.Raycast(ray, out hit, 1.5f))
             {
                 pb.anim.SetIKPosition(AvatarIKGoal.LeftHand, hit.point);
                 pb.anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
-                Debug.Log(hit.collider.name);
             }
             else
             {
