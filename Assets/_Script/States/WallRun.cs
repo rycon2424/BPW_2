@@ -25,6 +25,7 @@ public class WallRun : State
         }
         pb.anim.SetBool("WallRunRight", !right);
         pb.anim.SetBool("WallRun", true);
+        pb.anim.SetTrigger("WRunNow");
         closeToWall = true;
     }
 
@@ -36,7 +37,7 @@ public class WallRun : State
 
     public override void StateLateUpdate(PlayerBehaviour pb)
     {
-        wallClimb -= 0.007f;
+        wallClimb -= 0.03f;
     }
 
     float wallClimb;
