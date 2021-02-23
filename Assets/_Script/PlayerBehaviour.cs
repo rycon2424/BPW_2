@@ -75,12 +75,14 @@ public class PlayerBehaviour : MonoBehaviour
         Falling fa = new Falling();
         WallRun wr = new WallRun();
         StateBetween sb = new StateBetween();
+        InAir ia = new InAir();
 
         StateMachine.allStates.Add(lm);
         StateMachine.allStates.Add(hg);
         StateMachine.allStates.Add(fa);
         StateMachine.allStates.Add(sb);
         StateMachine.allStates.Add(wr);
+        StateMachine.allStates.Add(ia);
         StateMachine.GoToState(this, "Locomotion");
     }
 

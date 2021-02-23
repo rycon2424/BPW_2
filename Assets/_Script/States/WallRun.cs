@@ -37,7 +37,7 @@ public class WallRun : State
 
     public override void StateLateUpdate(PlayerBehaviour pb)
     {
-        wallClimb -= 0.03f;
+        wallClimb -= 0.01f;
     }
 
     float wallClimb;
@@ -46,8 +46,16 @@ public class WallRun : State
         if (Input.GetKeyDown(pb.kc.jump))
         {
             pb.anim.SetTrigger("Jump");
+            if (right)
+            {
+               // pb.transform.Rotate(0, -90, 0);
+            }
+            else
+            {
+               // pb.transform.Rotate(0, 90, 0);
+            }
             pb.jumped = true;
-            StateMachine.GoToState(pb, "StateBetween");
+            StateMachine.GoToState(pb, "InAir");
         }
         if (right)
         {
