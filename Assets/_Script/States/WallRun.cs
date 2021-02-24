@@ -6,6 +6,7 @@ public class WallRun : State
 {
     public bool right;
     bool closeToWall;
+    bool foundWall;
     public override void OnStateEnter(PlayerBehaviour pb)
     {
         pb.anim.applyRootMotion = false;
@@ -16,12 +17,24 @@ public class WallRun : State
             pb.PlayerFaceWall(pb, pb.transform.right * 0.25f ,-pb.transform.right);
             pb.transform.Rotate(0, 90, 0);
             right = false;
+            foundWall = true;
         }
         else if (pb.PlayerToWall(pb, pb.transform.right * 0.75f, false))
         {
             pb.PlayerFaceWall(pb, -pb.transform.right * 0.25f, pb.transform.right);
             pb.transform.Rotate(0, -90, 0);
             right = true;
+            foundWall = true;
+        }
+        else
+        {
+            foundWall = false;
+        }
+        if (foundWall == false)
+        {
+            Debug.Log("Hit no wall");
+            StateMachine.GoToState(pb, "Falling");
+            return;
         }
         pb.anim.SetBool("WallRunRight", !right);
         pb.anim.SetBool("WallRun", true);
@@ -48,27 +61,47 @@ public class WallRun : State
             pb.anim.SetTrigger("Jump");
             if (right)
             {
-               // pb.transform.Rotate(0, -90, 0);
+                pb.transform.Rotate(0, -90, 0);
             }
             else
             {
-               // pb.transform.Rotate(0, 90, 0);
+                pb.transform.Rotate(0, 90, 0);
             }
             pb.jumped = true;
             StateMachine.GoToState(pb, "InAir");
+            return;
+        }
+        if (pb.isPlaceToClimb(pb.transform.position + Vector3.up * 0.5f, Vector3.down, 0.5f))
+        {
+            StateMachine.GoToState(pb, "Locomotion");
+            return;
         }
         if (right)
         {
             if (!CheckForWallsRight(pb))
             {
-                StateMachine.GoToState(pb, "Falling");
+                if (pb.grounded)
+                {
+                    StateMachine.GoToState(pb, "Locomotion");
+                }
+                else
+                {
+                    StateMachine.GoToState(pb, "Falling");
+                }
             }
         }
         else
         {
             if (!CheckForWallsLeft(pb))
             {
-                StateMachine.GoToState(pb, "Falling");
+                if (pb.grounded)
+                {
+                    StateMachine.GoToState(pb, "Locomotion");
+                }
+                else
+                {
+                    StateMachine.GoToState(pb, "Falling");
+                }
             }
         }
         if (Input.GetKeyDown(pb.kc.drop))

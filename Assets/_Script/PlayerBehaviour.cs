@@ -47,8 +47,8 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public PlayerCombat pc;
     [HideInInspector] public PlayerStats st;
     [HideInInspector] public PlayerKeyCodes kc;
-    [HideInInspector] public int wallRunState;
     [HideInInspector] public bool canWallRun;
+    public int wallRunState;
 
     void Start()
     {
@@ -88,7 +88,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(canWallRun);
         HitGround();
         currentState.StateUpdate(this);
     }
@@ -368,7 +367,6 @@ public class PlayerBehaviour : MonoBehaviour
         switch (CheckForWallRun())
         {
             case 0:
-                wallRunState = 0;
                 break;
             case 1:
                 wallRunState = 1;
@@ -399,5 +397,23 @@ public class PlayerBehaviour : MonoBehaviour
         }
         return 0;
     }
+
+    public void RotatePlayer(int y)
+    {
+        transform.Rotate(0, y, 0);
+    }
+
+    public void FindLedge(PlayerBehaviour pb)
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(pb.transform.position + Vector3.up * 1.8f + pb.transform.forward, -pb.transform.up);
+        Debug.DrawRay(pb.transform.position + Vector3.up * 1.8f + pb.transform.forward, pb.transform.up * -0.6f, Color.red, 1);
+        if (Physics.Raycast(ray, out hit, 0.6f))
+        {
+            pb.grabHeight = hit.point.y - pb.transform.position.y;
+            StateMachine.GoToState(pb, "Hanging");
+        }
+    }
+
 
 }

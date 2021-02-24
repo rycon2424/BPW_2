@@ -24985,7 +24985,7 @@ AnimationClip:
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
     m_StopTime: 1.0000002
-    m_OrientationOffsetY: -90
+    m_OrientationOffsetY: 180
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
@@ -49054,7 +49054,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 1
     messageOptions: 0
-  - time: 0.8333333
+  - time: 0.6666667
     functionName: A_CanWallRun
     data: 
     objectReferenceParameter: {fileID: 0}
