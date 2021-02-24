@@ -24,6 +24,7 @@ public class Hanging : State
             return;
         }
         pb.anim.SetTrigger("Hang");
+        pb.transform.position = pb.transform.position - pb.transform.forward;
 
         pb.DelayFunction("DelayedRoot", 0.25f);
     }

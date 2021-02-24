@@ -18,8 +18,6 @@ public class InAir : State
 
     public override void StateUpdate(PlayerBehaviour pb)
     {
-        Vector3 fallSpeed = pb.transform.up * Time.deltaTime * -3;
-        pb.characterController.Move(fallSpeed);
         if (Input.GetMouseButtonDown(0) && !pb.inJumpAttack)
         {
             pb.jumped = false;
@@ -37,6 +35,8 @@ public class InAir : State
         }
         if (pb.jumped && pb.canWallRun)
         {
+            Vector3 fallSpeed = pb.transform.up * Time.deltaTime * -3;
+            pb.characterController.Move(fallSpeed);
             if (Input.GetKey(pb.kc.jump))
             {
                 if (pb.isPlaceToClimb(pb.transform.position + Vector3.up, pb.transform.forward, 0.5f))
