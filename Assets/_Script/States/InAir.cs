@@ -20,6 +20,12 @@ public class InAir : State
     {
         Vector3 fallSpeed = pb.transform.up * Time.deltaTime * -3;
         pb.characterController.Move(fallSpeed);
+        if (Input.GetMouseButtonDown(0) && !pb.inJumpAttack)
+        {
+            pb.jumped = false;
+            pb.inJumpAttack = true;
+            pb.anim.SetTrigger("JumpAttack");
+        }
         if (pb.isPlaceToClimb(pb.transform.position + Vector3.up * 0.5f, Vector3.down, 0.5f))
         {
             StateMachine.GoToState(pb, "Locomotion");

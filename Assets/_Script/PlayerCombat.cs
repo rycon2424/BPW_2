@@ -57,14 +57,7 @@ public class PlayerCombat : MonoBehaviour
             {
                 inCombo = true;
                 pb.anim.SetBool("Combo", true);
-                foreach (var item in swordBack)
-                {
-                    item.SetActive(false);
-                }
-                foreach (var item in swordHand)
-                {
-                    item.SetActive(true);
-                }
+                ShowWeapon();
             }
             else if (inCombo == true)
             {
@@ -78,6 +71,18 @@ public class PlayerCombat : MonoBehaviour
         inCombo = false;
         pb.anim.SetBool("Combo", false);
         pb.anim.SetBool("Attack", false);
+    }
+
+    public void ShowWeapon()
+    {
+        foreach (var item in swordBack)
+        {
+            item.SetActive(false);
+        }
+        foreach (var item in swordHand)
+        {
+            item.SetActive(true);
+        }
     }
 
     public void Sheat()

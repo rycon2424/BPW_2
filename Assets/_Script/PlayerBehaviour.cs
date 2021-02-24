@@ -49,6 +49,7 @@ public class PlayerBehaviour : MonoBehaviour
     [HideInInspector] public PlayerKeyCodes kc;
     [HideInInspector] public bool canWallRun;
     public int wallRunState;
+    public bool inJumpAttack;
 
     void Start()
     {
@@ -113,7 +114,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     IEnumerator Falling()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         if (StateMachine.IsInState("Locomotion"))
         {
             StateMachine.GoToState(this, "Falling");
@@ -139,6 +140,7 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 StopCoroutine("Falling");
                 grounded = true;
+                inJumpAttack = false;
                 if (StateMachine.IsInState("Locomotion"))
                 {
                     if (jumped)
@@ -415,5 +417,14 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    public void SetLayerWeight(AnimationEvent ae)
+    {
+        anim.SetLayerWeight(ae.intParameter, ae.floatParameter);
+    }
+
+    public void PlayAnimation(string animName)
+    {
+        anim.Play(animName);
+    }
 
 }

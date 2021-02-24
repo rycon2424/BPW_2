@@ -84,6 +84,16 @@ public class Locomotion : State
             }
         }
 
+        if (pb.jumped && pb.inJumpAttack == false)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                pb.jumped = false;
+                pb.inJumpAttack = true;
+                pb.anim.SetTrigger("JumpAttack");
+            }
+        }
+
         // Apply gravity
         pb.movement.y = pb.movement.y + (Physics.gravity.y * pb.gravity * Time.deltaTime);
 
