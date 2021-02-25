@@ -91,6 +91,23 @@ public class PlayerBehaviour : MonoBehaviour
     {
         HitGround();
         currentState.StateUpdate(this);
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            CalculateSlopeDirection();
+        }
+    }
+
+    void CalculateSlopeDirection()
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position + Vector3.up * 0.5f, Vector3.down);
+        Debug.DrawRay(transform.position + Vector3.up * 0.5f, Vector3.down * 1, Color.red, 0.5f);
+        if (Physics.Raycast(ray, out hit, 1f))
+        {
+            Vector3 slopeRight = Vector3.Cross(Vector3.up, hit.normal);
+            Vector3 slopeDirection = Vector3.Cross(slopeRight, hit.normal).normalized;
+            Debug.Log("SlopeDirection = " + slopeDirection);
+        }
     }
 
     void LateUpdate()
