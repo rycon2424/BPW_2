@@ -19,6 +19,7 @@ public class PlayerBehaviour : MonoBehaviour
     public float jumpForce = 8.0f;
     public float gravity = 2.5f;
     public int fallDuration;
+    public int airTime;
 
     [Header("Gun")]
     public GameObject gunInHand;
@@ -197,6 +198,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void FixedUpdate()
     {
+        currentState.StateFixedUpdate(this);
         if (!grounded)
         {
             if (StateMachine.IsInState("Locomotion") || StateMachine.IsInState("Falling"))

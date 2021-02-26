@@ -6,6 +6,7 @@ public class PlayerKeyCodes : MonoBehaviour
 {
     public string yAxis = "Vertical";
     public string xAxis = "Horizontal";
+    public KeyCode grab = KeyCode.E;
     public KeyCode drop = KeyCode.X;
     public KeyCode jump = KeyCode.Space;
     public KeyCode sprint = KeyCode.LeftShift;

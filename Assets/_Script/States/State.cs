@@ -20,9 +20,12 @@ public class State
     {
     }
 
+    public virtual void StateFixedUpdate(PlayerBehaviour pb)
+    {
+    }
+
     public virtual void AnimatorIKUpdate(PlayerBehaviour pb)
     {
-
     }
 
 }

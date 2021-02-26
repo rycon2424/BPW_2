@@ -4,36 +4,50 @@ using UnityEngine;
 
 public class InAir : State
 {
-
     public override void OnStateEnter(PlayerBehaviour pb)
     {
-
+        pb.airTime = 0;
     }
 
     public override void OnStateExit(PlayerBehaviour pb)
     {
+        
     }
 
     public override void StateLateUpdate(PlayerBehaviour pb)
     {
+
     }
 
     public override void StateUpdate(PlayerBehaviour pb)
     {
+        pb.airTime++;
         if (Input.GetMouseButtonDown(0) && !pb.inJumpAttack)
         {
             pb.jumped = false;
             pb.inJumpAttack = true;
             pb.anim.SetTrigger("JumpAttack");
+            pb.airTime = 0;
+        }
+        Debug.Log(pb.airTime);
+        Debug.ClearDeveloperConsole();
+        if (pb.airTime >= 250)
+        {
+            pb.fallDuration = Mathf.RoundToInt((float)pb.airTime / 4);
+            StateMachine.GoToState(pb, "Falling");
+            return;
         }
         if (pb.isPlaceToClimb(pb.transform.position + Vector3.up * 0.5f, Vector3.down, 0.5f))
         {
             StateMachine.GoToState(pb, "Locomotion");
             return;
         }
-        if (Input.GetKey(KeyCode.E))
+        if (pb.jumped)
         {
-            pb.FindLedge(pb);
+            if (Input.GetKey(pb.kc.grab))
+            {
+                pb.FindLedge(pb);
+            }
         }
         if (pb.jumped && pb.canWallRun)
         {

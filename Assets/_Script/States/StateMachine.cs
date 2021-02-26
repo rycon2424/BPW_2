@@ -13,6 +13,13 @@ public abstract class StateMachine : MonoBehaviour
         {
             currentState.OnStateExit(pb);
         }
+        if (currentState != null)
+        {
+            if (currentState.GetType().ToString() == newstate)
+            {
+                return;
+            }
+        }
         foreach (var s in allStates)
         {
             if (s.GetType().ToString() == newstate)
