@@ -11,7 +11,8 @@ public class InAir : State
 
     public override void OnStateExit(PlayerBehaviour pb)
     {
-        
+        pb.pc.inCombo = false;
+        pb.anim.SetBool("Combo", false);
     }
 
     public override void StateLateUpdate(PlayerBehaviour pb)
