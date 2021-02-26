@@ -77,6 +77,7 @@ public class PlayerBehaviour : MonoBehaviour
         WallRun wr = new WallRun();
         StateBetween sb = new StateBetween();
         InAir ia = new InAir();
+        Slide sl = new Slide();
 
         StateMachine.allStates.Add(lm);
         StateMachine.allStates.Add(hg);
@@ -84,6 +85,7 @@ public class PlayerBehaviour : MonoBehaviour
         StateMachine.allStates.Add(sb);
         StateMachine.allStates.Add(wr);
         StateMachine.allStates.Add(ia);
+        StateMachine.allStates.Add(sl);
         StateMachine.GoToState(this, "Locomotion");
     }
 
@@ -91,25 +93,12 @@ public class PlayerBehaviour : MonoBehaviour
     {
         HitGround();
         currentState.StateUpdate(this);
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.Y))
         {
-            CalculateSlopeDirection();
+            StateMachine.GoToState(this, "Slide");
         }
     }
-
-    void CalculateSlopeDirection()
-    {
-        RaycastHit hit;
-        Ray ray = new Ray(transform.position + Vector3.up * 0.5f, Vector3.down);
-        Debug.DrawRay(transform.position + Vector3.up * 0.5f, Vector3.down * 1, Color.red, 0.5f);
-        if (Physics.Raycast(ray, out hit, 1f))
-        {
-            Vector3 slopeRight = Vector3.Cross(Vector3.up, hit.normal);
-            Vector3 slopeDirection = Vector3.Cross(slopeRight, hit.normal).normalized;
-            Debug.Log("SlopeDirection = " + slopeDirection);
-        }
-    }
-
+    
     void LateUpdate()
     {
         currentState.StateLateUpdate(this);
@@ -131,7 +120,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     IEnumerator Falling()
     {
-        yield return new WaitForSeconds(1.5f);
+        //Debug.Log("start falling");
+        yield return new WaitForSeconds(1.25f);
         if (StateMachine.IsInState("Locomotion"))
         {
             StateMachine.GoToState(this, "Falling");
@@ -214,6 +204,20 @@ public class PlayerBehaviour : MonoBehaviour
                 fallDuration++;
             }
         }
+    }
+
+    public Vector3 CalculateSlopeDirection()
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position + Vector3.up * 0.5f, Vector3.down);
+        Debug.DrawRay(transform.position + Vector3.up * 0.5f, Vector3.down * 1, Color.red, 0.5f);
+        if (Physics.Raycast(ray, out hit, 1f))
+        {
+            Vector3 slopeRight = Vector3.Cross(Vector3.up, hit.normal);
+            Vector3 slopeDirection = Vector3.Cross(slopeRight, hit.normal).normalized;
+            return slopeDirection;
+        }
+        return Vector3.zero;
     }
 
     public void LerpToPosition(Vector3 pos)
@@ -442,6 +446,11 @@ public class PlayerBehaviour : MonoBehaviour
     public void PlayAnimation(string animName)
     {
         anim.Play(animName);
+    }
+
+    public void StartPBCoroutine(string ienumeratorName)
+    {
+        StartCoroutine(ienumeratorName);
     }
 
 }

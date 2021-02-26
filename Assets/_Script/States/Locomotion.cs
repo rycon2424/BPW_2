@@ -91,6 +91,8 @@ public class Locomotion : State
                 pb.jumped = false;
                 pb.inJumpAttack = true;
                 pb.anim.SetTrigger("JumpAttack");
+                StateMachine.GoToState(pb, "InAir");
+                return;
             }
         }
 

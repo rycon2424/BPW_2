@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class InAir : State
 {
+
     public override void OnStateEnter(PlayerBehaviour pb)
     {
+
     }
 
     public override void OnStateExit(PlayerBehaviour pb)
