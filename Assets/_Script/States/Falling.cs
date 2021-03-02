@@ -22,12 +22,14 @@ public class Falling : State
     {
         if (pb.grounded)
         {
-            if (pb.fallDuration <= 40)
+            Debug.Log(Mathf.RoundToInt(Vector3.Distance(pb.noGroundPosition, pb.transform.position)));
+            pb.fallDistance = Mathf.RoundToInt(Vector3.Distance(pb.noGroundPosition, pb.transform.position));
+            if (pb.fallDistance <= 10)
             {
                 pb.anim.SetInteger("FallType", 0);
                 StateMachine.GoToState(pb, "Locomotion");
             }
-            else if (pb.fallDuration >= 40)
+            else if (pb.fallDistance >= 11)
             {
                 pb.anim.SetInteger("FallType", 1);
                 StateMachine.GoToState(pb, "Locomotion");

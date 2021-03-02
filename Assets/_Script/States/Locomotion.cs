@@ -9,7 +9,6 @@ public class Locomotion : State
         pb.characterController.enabled = true;
         pb.anim.applyRootMotion = true;
         pb.canJump = true;
-        pb.fallDuration = 0;
     }
 
     public override void OnStateExit(PlayerBehaviour pb)

@@ -7,6 +7,7 @@ public class InAir : State
     public override void OnStateEnter(PlayerBehaviour pb)
     {
         pb.airTime = 0;
+        airTimePos = pb.transform.position;
     }
 
     public override void OnStateExit(PlayerBehaviour pb)
@@ -20,21 +21,20 @@ public class InAir : State
 
     }
 
+    Vector3 airTimePos;
     public override void StateUpdate(PlayerBehaviour pb)
     {
-        pb.airTime++;
+        pb.airTime = Mathf.RoundToInt(Vector3.Distance(pb.transform.position, airTimePos));
         if (Input.GetMouseButtonDown(0) && !pb.inJumpAttack)
         {
             pb.jumped = false;
             pb.inJumpAttack = true;
             pb.anim.SetTrigger("JumpAttack");
-            pb.airTime = 0;
+            airTimePos = pb.transform.position;
         }
-        Debug.Log(pb.airTime);
         Debug.ClearDeveloperConsole();
-        if (pb.airTime >= 250)
+        if (pb.airTime >= 7)
         {
-            pb.fallDuration = Mathf.RoundToInt((float)pb.airTime / 4);
             StateMachine.GoToState(pb, "Falling");
             return;
         }

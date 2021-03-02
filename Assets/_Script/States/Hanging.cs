@@ -31,7 +31,7 @@ public class Hanging : State
 
     public override void OnStateExit(PlayerBehaviour pb)
     {
-        pb.fallDuration = 0;
+
     }
     
     public override void StateUpdate(PlayerBehaviour pb)

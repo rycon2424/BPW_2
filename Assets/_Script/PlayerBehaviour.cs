@@ -18,7 +18,10 @@ public class PlayerBehaviour : MonoBehaviour
     private float normalSpeed;
     public float jumpForce = 8.0f;
     public float gravity = 2.5f;
-    public int fallDuration;
+
+    [Header("Air")]
+    public Vector3 noGroundPosition;
+    public int fallDistance;
     public int airTime;
 
     [Header("Gun")]
@@ -156,7 +159,6 @@ public class PlayerBehaviour : MonoBehaviour
                         anim.SetTrigger("Rol");
                         jumped = false;
                     }
-                    fallDuration = 0;
                 }
                 else
                 {
@@ -168,6 +170,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (grounded != false)
             {
+                noGroundPosition = transform.position;
                 grounded = false;
                 StartCoroutine("Falling");
             }
@@ -199,13 +202,6 @@ public class PlayerBehaviour : MonoBehaviour
     private void FixedUpdate()
     {
         currentState.StateFixedUpdate(this);
-        if (!grounded)
-        {
-            if (StateMachine.IsInState("Locomotion") || StateMachine.IsInState("Falling"))
-            {
-                fallDuration++;
-            }
-        }
     }
 
     public Vector3 CalculateSlopeDirection()
