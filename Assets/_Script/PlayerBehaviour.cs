@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBehaviour : MonoBehaviour
+public class PlayerBehaviour : Actor
 {
 
     public Animator anim;
@@ -70,6 +70,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         canJump = true;
 
+        SetupHealth();
         SetupStateMachine();
     }
 

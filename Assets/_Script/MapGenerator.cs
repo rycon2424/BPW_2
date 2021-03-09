@@ -11,11 +11,13 @@ public class MapGenerator : MonoBehaviour
     [Header("Game Settings")]
     public Vector3 firstTilePosition;
     [Space]
+    public GameObject enemy;
     public GameObject tile;
     public GameObject chest;
     public GameObject torch;
     public List<AvailablePositions> allTiles = new List<AvailablePositions>();
     private List<NavMeshSurface> nms = new List<NavMeshSurface>();
+    private List<Enemy> allEnemies = new List<Enemy>();
 
     [Header("UI Info")]
     public GameObject loadingScreen;
@@ -193,7 +195,9 @@ public class MapGenerator : MonoBehaviour
                 tempTile = allTiles[r];
                 yield return new WaitForEndOfFrame();
             }
-            //SpawnEnemy
+            Transform spawnLocation = tempTile.spawnLocations[Random.Range(0, tempTile.spawnLocations.Length)];
+            Enemy tempEnemy = Instantiate(enemy, spawnLocation.position + Vector3.up, spawnLocation.rotation).GetComponent<Enemy>();
+            allEnemies.Add(tempEnemy);
             tempTile.hasObject = true;
             progress.value++;
         }
@@ -204,6 +208,12 @@ public class MapGenerator : MonoBehaviour
         yield return new WaitForSeconds(1);
         player.SetActive(true);
         loadingScreen.SetActive(false);
+        yield return new WaitForSeconds(0.25f);
+        foreach (Enemy e in allEnemies)
+        {
+            yield return new WaitForEndOfFrame();
+            e.GetTarget();
+        }
     }
 
     void SetPosition()

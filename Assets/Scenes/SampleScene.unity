@@ -1974,7 +1974,7 @@ PrefabInstance:
     - target: {fileID: 1225739467035670661, guid: c9ef1cb823ab0c248a2404d183441ea4,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1227524336015126491, guid: c9ef1cb823ab0c248a2404d183441ea4,
         type: 3}
@@ -2030,6 +2030,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143090429470252111, guid: c9ef1cb823ab0c248a2404d183441ea4,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7143090429470252111, guid: c9ef1cb823ab0c248a2404d183441ea4,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7721967932905922019, guid: c9ef1cb823ab0c248a2404d183441ea4,
         type: 3}
@@ -3293,7 +3303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1888757628
 Transform:
   m_ObjectHideFlags: 0
@@ -3702,7 +3712,7 @@ PrefabInstance:
     - target: {fileID: 6502309603645491841, guid: 96763ecbb4a5c6d429996a772ab93918,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6502309603645491842, guid: 96763ecbb4a5c6d429996a772ab93918,
         type: 3}
@@ -3718,6 +3728,37 @@ PrefabInstance:
         type: 3}
       propertyPath: goDownChance
       value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502309603645491842, guid: 96763ecbb4a5c6d429996a772ab93918,
+        type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 3642717021397511499, guid: f4a6c52d2dd3a5741b829d418f1881cc,
+        type: 3}
+    - target: {fileID: 6502309603645491842, guid: 96763ecbb4a5c6d429996a772ab93918,
+        type: 3}
+      propertyPath: torchChance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502309603645491842, guid: 96763ecbb4a5c6d429996a772ab93918,
+        type: 3}
+      propertyPath: chests
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502309603645491842, guid: 96763ecbb4a5c6d429996a772ab93918,
+        type: 3}
+      propertyPath: enemies
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502309603645491842, guid: 96763ecbb4a5c6d429996a772ab93918,
+        type: 3}
+      propertyPath: mapLength
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502309603645491842, guid: 96763ecbb4a5c6d429996a772ab93918,
+        type: 3}
+      propertyPath: seed
+      value: 69
       objectReference: {fileID: 0}
     - target: {fileID: 6502309603645491843, guid: 96763ecbb4a5c6d429996a772ab93918,
         type: 3}
@@ -3792,12 +3833,12 @@ PrefabInstance:
     - target: {fileID: 6502309604595834493, guid: 96763ecbb4a5c6d429996a772ab93918,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6502309604595834493, guid: 96763ecbb4a5c6d429996a772ab93918,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96763ecbb4a5c6d429996a772ab93918, type: 3}

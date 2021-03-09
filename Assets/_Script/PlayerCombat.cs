@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCombat : MonoBehaviour
+public class PlayerCombat : Actor
 {
     public bool inCombo;
     public bool shootCld;
@@ -10,7 +10,9 @@ public class PlayerCombat : MonoBehaviour
     PlayerBehaviour pb;
     public GameObject[] swordHand;
     public GameObject[] swordBack;
-    
+    [Space]
+    public List<Enemy> enemies = new List<Enemy>();
+
     private void Start()
     {
         pb = GetComponent<PlayerBehaviour>();
@@ -107,6 +109,35 @@ public class PlayerCombat : MonoBehaviour
         if (!pb.anim.GetBool("Attack"))
         {
             InteruptAttack();
+        }
+    }
+
+    public void DealDamage()
+    {
+        if (enemies.Count > 0)
+        {
+            foreach (Enemy e in enemies)
+            {
+                e.TakeDamage(25);
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Enemy e = other.GetComponent<Enemy>();
+        if (e != null)
+        {
+            enemies.Add(e);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Enemy e = other.GetComponent<Enemy>();
+        if (e != null)
+        {
+            enemies.Remove(e);
         }
     }
 }
