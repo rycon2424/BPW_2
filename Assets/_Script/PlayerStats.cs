@@ -5,11 +5,11 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     public int playerMaxHp;
-    public int shieldStrenght;
     public Vector3 shotgunAccuracy;
     public float shootAttackSpeed = 1;
     public float meleeAttackSpeed = 1;
     public float runSpeed = 1;
+    public float climbSpeed = 1;
 
     PlayerBehaviour pb;
 
