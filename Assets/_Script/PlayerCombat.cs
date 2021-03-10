@@ -71,7 +71,7 @@ public class PlayerCombat : MonoBehaviour
                 Enemy e = hit.collider.GetComponent<Enemy>();
                 if (e != null)
                 {
-                    e.TakeDamage(10);
+                    e.TakeDamage(pb.st.shootDamage);
                 }
             }
         }
@@ -149,7 +149,7 @@ public class PlayerCombat : MonoBehaviour
         {
             foreach (Enemy e in enemies)
             {
-                e.TakeDamage(25);
+                e.TakeDamage(pb.st.meleeDamage);
             }
         }
     }

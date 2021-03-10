@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    public int playerMaxHp;
     public Vector3 shotgunAccuracy;
     public float pellets = 5;
     public float shootAttackSpeed = 1;
     public float meleeAttackSpeed = 1;
     public float runSpeed = 1;
     public float climbSpeed = 1;
+    public int meleeDamage = 15;
+    public int shootDamage = 10;
 
     PlayerBehaviour pb;
 
@@ -21,6 +22,11 @@ public class PlayerStats : MonoBehaviour
     
     void Update()
     {
+        if (StateMachine.IsInState("Hanging"))
+        {
+            pb.anim.speed = climbSpeed;
+            return;
+        }
         if (pb.anim.GetBool("Sprinting"))
         {
             pb.anim.speed = runSpeed;

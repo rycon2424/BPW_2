@@ -9,6 +9,8 @@ public class Chest : MonoBehaviour
     bool playerInRange;
     Animator anim;
 
+    public GameObject itemObject;
+    
     void Start()
     {
         anim = GetComponent<Animator>();

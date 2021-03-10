@@ -32,6 +32,8 @@ public class MapGenerator : MonoBehaviour
     [Range(0, 100)] public int torchChance;
     public int chests;
     public int enemies;
+    [Header("Item settings")]
+    public List<ItemDataBase> items = new List<ItemDataBase>();
 
     void Start()
     {
@@ -179,7 +181,8 @@ public class MapGenerator : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
             Transform spawnLocation = tempTile.spawnLocations[Random.Range(0, tempTile.spawnLocations.Length)];
-            Instantiate(chest, spawnLocation.position, spawnLocation.rotation);
+            GameObject T = Instantiate(chest, spawnLocation.position, spawnLocation.rotation).gameObject;
+            T.GetComponent<Chest>().itemObject.AddComponent<Item>().Setup(items[Random.Range(0, items.Count)]);
             tempTile.hasObject = true;
             progress.value++;
         }
