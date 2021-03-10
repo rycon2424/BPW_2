@@ -20,9 +20,11 @@ public class MapGenerator : MonoBehaviour
     private List<Enemy> allEnemies = new List<Enemy>();
 
     [Header("UI Info")]
+    public float timerTime = 0;
     public GameObject loadingScreen;
     public Slider progress;
     public Text info;
+    public Text timer;
 
     [Header("Map generation settings")]
     public int seed;
@@ -217,6 +219,7 @@ public class MapGenerator : MonoBehaviour
             yield return new WaitForEndOfFrame();
             e.GetTarget();
         }
+        timerStarted = true;
     }
 
     void SetPosition()
@@ -314,4 +317,17 @@ public class MapGenerator : MonoBehaviour
         }
         return nextPos;
     }
+    
+    bool timerStarted;
+    private void Update()
+    {
+        if (timerStarted)
+        {
+            timerTime += Time.deltaTime;
+            var seconds = Mathf.FloorToInt(timerTime % 60);
+            var minutes = Mathf.FloorToInt(timerTime / 60);
+            timer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
+    }
+    
 }
