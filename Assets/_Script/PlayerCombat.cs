@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCombat : Actor
+public class PlayerCombat : MonoBehaviour
 {
     public bool inCombo;
     public bool shootCld;
     [Space]
     PlayerBehaviour pb;
+    public Vector3 offsetStartPos;
+    public LayerMask lm;
+    public Transform gun;
     public GameObject[] swordHand;
     public GameObject[] swordBack;
     [Space]
@@ -41,8 +44,36 @@ public class PlayerCombat : Actor
         if (Input.GetMouseButtonDown(0))
         {
             shootCld = true;
-            Debug.Log("Shoot");
+            Shoot();
             Invoke("ShootCooldown", pb.st.shootAttackSpeed);
+        }
+    }
+
+    public GameObject trail;
+    void Shoot()
+    {
+        for (int i = 0; i < pb.st.pellets; i++)
+        {
+            Vector3 offset = pb.oc.transform.forward;
+            offset += pb.oc.transform.up * 0.1f;
+            offset += (pb.oc.transform.right * Random.Range(-pb.st.shotgunAccuracy.x, pb.st.shotgunAccuracy.x));
+            offset += (pb.oc.transform.up * Random.Range(-pb.st.shotgunAccuracy.y, pb.st.shotgunAccuracy.y));
+
+            Ray ray = new Ray(pb.oc.transform.position + offsetStartPos, offset);
+            RaycastHit hit;
+            
+            if (Physics.Raycast(ray, out hit, 20, lm))
+            {
+                LineRenderer lr = Instantiate(trail, gun.transform.position + offsetStartPos, Quaternion.identity).GetComponent<LineRenderer>();
+                lr.SetPosition(0, gun.transform.position + offsetStartPos);
+                lr.SetPosition(1, hit.point);
+                Destroy(lr.gameObject, 0.1f);
+                Enemy e = hit.collider.GetComponent<Enemy>();
+                if (e != null)
+                {
+                    e.TakeDamage(10);
+                }
+            }
         }
     }
 

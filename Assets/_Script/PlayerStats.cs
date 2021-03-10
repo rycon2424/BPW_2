@@ -6,6 +6,7 @@ public class PlayerStats : MonoBehaviour
 {
     public int playerMaxHp;
     public Vector3 shotgunAccuracy;
+    public float pellets = 5;
     public float shootAttackSpeed = 1;
     public float meleeAttackSpeed = 1;
     public float runSpeed = 1;
