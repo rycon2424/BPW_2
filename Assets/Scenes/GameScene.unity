@@ -3736,36 +3736,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 664722933668203267, guid: 96763ecbb4a5c6d429996a772ab93918,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6502309603231701152, guid: 96763ecbb4a5c6d429996a772ab93918,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6502309603645491841, guid: 96763ecbb4a5c6d429996a772ab93918,
         type: 3}
       propertyPath: m_Name
       value: MapManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502309603645491841, guid: 96763ecbb4a5c6d429996a772ab93918,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6502309603645491842, guid: 96763ecbb4a5c6d429996a772ab93918,
         type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1468368719}
-    - target: {fileID: 6502309603645491842, guid: 96763ecbb4a5c6d429996a772ab93918,
-        type: 3}
-      propertyPath: mapLength
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 6502309603645491842, guid: 96763ecbb4a5c6d429996a772ab93918,
-        type: 3}
-      propertyPath: enemies
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 6502309603645491843, guid: 96763ecbb4a5c6d429996a772ab93918,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3824,17 +3809,17 @@ PrefabInstance:
     - target: {fileID: 6502309603702248411, guid: 96763ecbb4a5c6d429996a772ab93918,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6502309603702248411, guid: 96763ecbb4a5c6d429996a772ab93918,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6502309603702248411, guid: 96763ecbb4a5c6d429996a772ab93918,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6502309604595834493, guid: 96763ecbb4a5c6d429996a772ab93918,
         type: 3}
