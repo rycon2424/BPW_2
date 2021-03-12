@@ -25,4 +25,6 @@ public class AvailablePositions : MonoBehaviour
     public GameObject[] hazard;
     [Space]
     public Transform[] spawnLocations;
+    [Space]
+    public GameObject endPortal;
 }

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ItemDataBase
 {
     public string name;
-    public Image icon;
+    public Sprite icon;
     public Color colorLight;
     public string description;
     [Space]

@@ -29,6 +29,12 @@ public class MapGenerator : MonoBehaviour
     [Space]
     public GameObject victory;
     public GameObject gameOver;
+    [Space]
+    public GameObject itemUI;
+    public Text itemName;
+    public Text itemDescription;
+    public Image[] playerItems;
+    public int totalItems;
 
     [Header("Map generation settings")]
     public int seed;
@@ -43,6 +49,7 @@ public class MapGenerator : MonoBehaviour
 
     bool gameEnded;
     bool timerStarted;
+    AvailablePositions endTile;
     // For level generation and hazard spawns
     int lastRandom = -1;
     bool goUp;
@@ -98,6 +105,7 @@ public class MapGenerator : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         yield return null;
+        endTile = allTiles[allTiles.Count - 1];
         StartCoroutine(FinalizingMaze());
     }
 
@@ -106,6 +114,7 @@ public class MapGenerator : MonoBehaviour
         int r = 0;
         AvailablePositions tempTile = null;
         info.text = "Creating Rooms";
+        endTile.hasObject = true;
         yield return null;
         foreach (AvailablePositions a in allTiles)
         {
@@ -222,6 +231,7 @@ public class MapGenerator : MonoBehaviour
         }
         yield return new WaitForSeconds(2);
         info.text = "Finalizing...";
+        endTile.endPortal.SetActive(true);
         yield return new WaitForSeconds(2);
         progress.value = progress.maxValue;
         yield return new WaitForSeconds(1);
@@ -338,6 +348,25 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
+    public void ShowReceivedItem(ItemDataBase i)
+    {
+        itemUI.SetActive(true);
+        Invoke("CloseItem", 3);
+        itemName.text = i.name;
+        itemDescription.text = i.description;
+        itemName.color = i.colorLight;
+
+        playerItems[totalItems].gameObject.SetActive(true);
+        playerItems[totalItems].sprite = i.icon;
+
+        totalItems++;
+    }
+
+    void CloseItem()
+    {
+        itemUI.SetActive(false);
+    }
+
     public void GameOver()
     {
         if (gameEnded)
@@ -359,7 +388,7 @@ public class MapGenerator : MonoBehaviour
         EnableMouse();
         timerStarted = false;
         gameEnded = true;
-        gameOver.SetActive(true);
+        victory.SetActive(true);
     }
 
     void EnableMouse()

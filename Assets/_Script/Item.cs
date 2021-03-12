@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Item : MonoBehaviour
 {
     public string itemName;
+    public MapGenerator mg;
     ItemDataBase item;
 
     public void Setup(ItemDataBase _item)
@@ -13,6 +14,7 @@ public class Item : MonoBehaviour
         item = _item;
         itemName = _item.name;
         GetComponent<Light>().color = _item.colorLight;
+        mg = FindObjectOfType<MapGenerator>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -38,6 +40,8 @@ public class Item : MonoBehaviour
         //Locomotion related;
         ps.runSpeed += item.runSpeed;
         ps.climbSpeed += item.climbSpeed;
+
+        mg.ShowReceivedItem(item);
 
         Destroy(gameObject);
     }
