@@ -79,6 +79,7 @@ public class Enemy : Actor
         GetComponent<CharacterController>().enabled = false;
         hpBarCanvas.gameObject.SetActive(false);
         anim.SetTrigger("Death");
+        FindObjectOfType<MapGenerator>().timerTime -= 5;
     }
 
     void FoundPlayer()

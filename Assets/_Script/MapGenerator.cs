@@ -386,7 +386,17 @@ public class MapGenerator : MonoBehaviour
         {
             return;
         }
-        PlayerPrefs.SetString(SeedSingleTon.instance.seed.ToString(), ((int)timerTime).ToString());
+        if (PlayerPrefs.HasKey(SeedSingleTon.instance.seed.ToString()))
+        {
+            if (timerTime < int.Parse(PlayerPrefs.GetString(SeedSingleTon.instance.seed.ToString())))
+            {
+                PlayerPrefs.SetString(SeedSingleTon.instance.seed.ToString(), ((int)timerTime).ToString());
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetString(SeedSingleTon.instance.seed.ToString(), ((int)timerTime).ToString());
+        }
         EnableMouse();
         timerStarted = false;
         gameEnded = true;

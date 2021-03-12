@@ -24,6 +24,7 @@ public class Chest : MonoBehaviour
             {
                 anim.Play("Open");
                 ui.UpdateSubtitle("");
+                FindObjectOfType<MapGenerator>().timerTime -= 2.5f;
                 Destroy(this);
             }
         }
