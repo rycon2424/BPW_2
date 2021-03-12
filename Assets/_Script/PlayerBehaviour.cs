@@ -42,7 +42,9 @@ public class PlayerBehaviour : Actor
     public Vector3 hangOffset;
     public float grabHeight;
     
+    //Privates
     private State currentState;
+    private MapGenerator mg;
 
     //Public hidden
     [HideInInspector] public OrbitCamera oc;
@@ -52,8 +54,8 @@ public class PlayerBehaviour : Actor
     [HideInInspector] public PlayerStats st;
     [HideInInspector] public PlayerKeyCodes kc;
     [HideInInspector] public bool canWallRun;
-    public int wallRunState;
-    public bool inJumpAttack;
+    [HideInInspector] public int wallRunState;
+    [HideInInspector] public bool inJumpAttack;
 
     void Start()
     {
@@ -64,6 +66,7 @@ public class PlayerBehaviour : Actor
         pc = GetComponent<PlayerCombat>();
         st = GetComponent<PlayerStats>();
         kc = GetComponent<PlayerKeyCodes>();
+        mg = FindObjectOfType<MapGenerator>();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -76,6 +79,9 @@ public class PlayerBehaviour : Actor
 
     void SetupStateMachine()
     {
+        StateMachine.allStates = new List<State>();
+        StateMachine.currentState = null;
+
         Locomotion lm = new Locomotion();
         Hanging hg = new Hanging();
         Falling fa = new Falling();
@@ -107,6 +113,12 @@ public class PlayerBehaviour : Actor
     void LateUpdate()
     {
         currentState.StateLateUpdate(this);
+    }
+
+    public override void OnDeath()
+    {
+        base.OnDeath();
+        mg.GameOver();
     }
 
     public void ChangeState(State newState)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class MapGenerator : MonoBehaviour
     public Slider progress;
     public Text info;
     public Text timer;
+    [Space]
+    public GameObject victory;
+    public GameObject gameOver;
 
     [Header("Map generation settings")]
     public int seed;
@@ -37,9 +41,19 @@ public class MapGenerator : MonoBehaviour
     [Header("Item settings")]
     public List<ItemDataBase> items = new List<ItemDataBase>();
 
+    bool gameEnded;
+    bool timerStarted;
+    // For level generation and hazard spawns
+    int lastRandom = -1;
+    bool goUp;
+    bool goDown;
+    int wentUp;
+    int wentDown;
+
     void Start()
     {
         UnityEngine.Random.InitState(seed);
+        gameEnded = false;
         progress.value = 0;
         if ((chests + enemies) > mapLength )
         {
@@ -239,12 +253,7 @@ public class MapGenerator : MonoBehaviour
                 break;
         }
     }
-
-    int lastRandom = -1;
-    bool goUp;
-    bool goDown;
-    int wentUp;
-    int wentDown;
+    
     Vector3 RandomPosition()
     {
         int randomPosition = Random.Range(0, 3);
@@ -318,7 +327,6 @@ public class MapGenerator : MonoBehaviour
         return nextPos;
     }
     
-    bool timerStarted;
     private void Update()
     {
         if (timerStarted)
@@ -329,5 +337,50 @@ public class MapGenerator : MonoBehaviour
             timer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         }
     }
-    
+
+    public void GameOver()
+    {
+        if (gameEnded)
+        {
+            return;
+        }
+        EnableMouse();
+        timerStarted = false;
+        gameEnded = true;
+        gameOver.SetActive(true);
+    }
+
+    public void Victory()
+    {
+        if (gameEnded)
+        {
+            return;
+        }
+        EnableMouse();
+        timerStarted = false;
+        gameEnded = true;
+        gameOver.SetActive(true);
+    }
+
+    void EnableMouse()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void Retry()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
 }
