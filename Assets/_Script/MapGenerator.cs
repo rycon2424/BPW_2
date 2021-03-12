@@ -59,6 +59,7 @@ public class MapGenerator : MonoBehaviour
 
     void Start()
     {
+        seed = SeedSingleTon.instance.seed;
         UnityEngine.Random.InitState(seed);
         gameEnded = false;
         progress.value = 0;
@@ -385,6 +386,7 @@ public class MapGenerator : MonoBehaviour
         {
             return;
         }
+        PlayerPrefs.SetString(SeedSingleTon.instance.seed.ToString(), ((int)timerTime).ToString());
         EnableMouse();
         timerStarted = false;
         gameEnded = true;
